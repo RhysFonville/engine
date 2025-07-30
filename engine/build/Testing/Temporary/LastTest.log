@@ -1,0 +1,22 @@
+Start testing: Jul 30 17:19 EDT
+----------------------------------------------------------
+1/1 Testing: log_test
+1/1 Test: log_test
+Command: "/Users/rhys/progs/engine/engine/build/log_test"
+Directory: /Users/rhys/progs/engine/engine/build
+"log_test" start time: Jul 30 17:19 EDT
+Output:
+----------------------------------------------------------
+FATAL: Fatal message
+ERROR: Error message
+WARN: Warn message
+INFO: Info message
+<end of output>
+Test time =   0.12 sec
+----------------------------------------------------------
+Test Passed.
+"log_test" end time: Jul 30 17:19 EDT
+"log_test" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Jul 30 17:19 EDT
