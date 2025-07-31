@@ -9,9 +9,11 @@ set(EXPORT_COMPILE_COMMANDS ON)
 
 # Create the library
 add_library(engine
-	src/temp.cpp
 	include/engine/util/defines.h
 	include/engine/util/debug.h
+	include/engine/Window.h
+	include/engine/Window_win32.h
+	src/Window_win32.cpp
 )
 
 # Set the include directory (public API)

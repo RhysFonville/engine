@@ -1,19 +1,21 @@
-#include "Window_win32.h"
+#include "engine/Window_win32.h"
 
-std::optional<void, Error> Window_win32::init(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
-	const char CLASS_NAME[]{"Window"};
+#ifdef RENDERER_D3D12
 
-	WNDCLASSA wc{};
-
+std::optional<Error> Window_win32::init(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
+	constexpr const char CLASS_NAME[]{"Window"};
 	wc.lpfnWndProc = WindowProc;
 	wc.hInstance = hInstance;
 	wc.lpszClassName = CLASS_NAME;
-
+	
 	RegisterClassA(&wc);
 
+	if (auto err{GetLastError()}; err == 0)
+		return Error{std::error_code{(int)err, std::system_category()}};
+
 	// Create the window
-	HWND hwnd = CreateWindowExA(
-		0,                              // Optional window styles.
+	hwnd = CreateWindowExA(
+		0ul,                       // Optional window styles.
 		CLASS_NAME,                     // Window class
 		"Engine Window",                // Window text
 		WS_OVERLAPPEDWINDOW,            // Window style
@@ -26,19 +28,26 @@ std::optional<void, Error> Window_win32::init(HINSTANCE hInstance, HINSTANCE hPr
 	);
 
 	if (hwnd == NULL) {
-		return 0;
+		return Error{std::error_code{(int)GetLastError(), std::system_category()}};
 	}
 
 	ShowWindow(hwnd, nCmdShow);
 
-	// Run the message loop
-	MSG msg = {};
-	while (GetMessage(&msg, NULL, 0, 0)) {
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
-	}
+	return std::nullopt;
 }
 
+std::optional<Error> Window_win32::init() {
+	return init(GetModuleHandleA(NULL), NULL, LPSTR(""), 0);
+}
+
+void Window_win32::process_events() const noexcept {
+	MSG msg{};
+	while (PeekMessageA(&msg, hwnd,  0u, 0u, PM_REMOVE)) 
+	{ 
+		TranslateMessage(&msg);
+		DispatchMessageA(&msg);
+	} 
+}
 
 LRESULT CALLBACK Window_win32::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	switch (uMsg) {
@@ -51,11 +60,13 @@ LRESULT CALLBACK Window_win32::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, L
 			HDC hdc = BeginPaint(hwnd, &ps);
 
 			// Draw "Hello, World!"
-			TextOut(hdc, 10, 10, L"Hello, World!", wcslen(L"Hello, World!"));
+			TextOutA(hdc, 10, 10, "Hello, World!", (int)wcslen(L"Hello, World!"));
 
 			EndPaint(hwnd, &ps);
 			return 0;
 		}
 	}
-	return DefWindowProc(hwnd, uMsg, wParam, lParam);
+	return DefWindowProcA(hwnd, uMsg, wParam, lParam);
 }
+
+#endif

@@ -5,6 +5,7 @@
 #include <source_location>
 #include <string>
 #include <unordered_map>
+//#include <stacktrace>
 
 #include "defines.h"
 
@@ -31,16 +32,18 @@ inline const std::error_category& cat_name##_category() { \
 
 class Error : public std::error_code {
 public:
-	explicit Error(
-		std::error_code ec,
-		std::source_location l = std::source_location::current()
-	) : std::error_code{ec}, location{l} { }
+	explicit Error(std::error_code ec) 
+		: std::error_code{ec}, location{std::source_location::current()} { }
 
 	NODISC std::source_location get_location() const noexcept { return location; }
+	//NODISC std::stacktrace get_stacktrace() const noexcept { return stacktrace; }
 
 private:
-	std::source_location location{std::source_location::current()};
+	std::source_location location{};
+	//std::stacktrace stacktrace{std::stacktrace::current()};
 };
+
+#undef ERROR
 
 enum class LogLevel {
 	FATAL,
@@ -73,7 +76,7 @@ inline void log(LogLevel level, const Error& error) noexcept {
 		std::to_string(loc.column()) + ":" +
 		std::to_string(loc.line()) + ":" +
 		loc.function_name() + ":" +
-		loc.file_name() <<
-		'\n'
+		loc.file_name() /*<<
+		". Stacktrace:\n" << error.get_stacktrace()*/ << '\n'
 	;
 }

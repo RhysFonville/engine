@@ -2,16 +2,12 @@
 
 #include <string>
 #include <memory>
-#include <expected>
+#include <optional>
 
 #include "util/debug.h"
 
-CREATE_ERROR_CATEGORY(window, {
-	{1, "Could not create window"}
-})
-
-ENGINE_API class Window {
+class ENGINE_API Window {
 public:
 	virtual std::optional<Error> init() const noexcept = 0;
-	virtual bool process_events() const noexcept = 0;
+	virtual void process_events() const noexcept = 0;
 };
