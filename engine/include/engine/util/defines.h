@@ -63,6 +63,8 @@ STATIC_ASSERT(sizeof(f64) == 8u, "Expected f64 to be 8 bytes.");
 
 #ifdef PLATFORM_WINDOWS
 	#define RENDERER_D3D12
+#elif defined(PLATFORM_APPLE)
+    #define RENDERER_VULKAN
 #endif
 
 #if defined(_WIN32) || defined(__CYGWIN__)

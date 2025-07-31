@@ -16,6 +16,14 @@ add_library(engine STATIC
 
 if(WIN32)
 	target_sources(engine PRIVATE src/Window_win32.cpp)
+elseif(APPLE)
+    target_sources(engine PRIVATE src/Window_apple.cpp)
+
+    find_package(Vulkan REQUIRED)
+    target_link_libraries(engine PRIVATE ${Vulkan_INCLUDE_DIRS})
+
+    find_package(glfw3 3.4 REQUIRED)
+    target_link_libraries(engine PRIVATE glfw)
 endif()
 
 # Set the include directory (public API)

@@ -5,7 +5,9 @@ int main() {
 	window.init();
 
 	while (true) {
-		if (!window.process_events()) break;
+        auto b{window.process_events()};
+        if (!b.has_value()) { log(LogLevel::ERROR, b.error()); return EXIT_FAILURE; }
+        else if (!b.value()) { break; }
 	}
 
 	return EXIT_SUCCESS;

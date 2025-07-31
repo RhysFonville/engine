@@ -1,7 +1,10 @@
 #pragma once
 
+#include "engine/util/defines.h"
+
+#ifdef RENDERER_D3D12
+
 #include <Windows.h>
-#include "Window.h"
 
 struct ENGINE_API WindowImpl {
 	std::optional<Error> init(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) noexcept;
@@ -9,4 +12,8 @@ struct ENGINE_API WindowImpl {
 
 	HWND hwnd{nullptr};
 	WNDCLASSA wc{};
+    HINSTANCE hinstance{nullptr};
 };
+
+#endif
+

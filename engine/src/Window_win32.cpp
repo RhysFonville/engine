@@ -1,12 +1,16 @@
-#include "engine/Window_win32.h"
+#include "engine/Window_apple.h"
 
 #ifdef RENDERER_D3D12
+
+#include "engine/Window.h"
 
 struct ENGINE_API Window::Impl : public WindowImpl { };
 
 Window::Window() noexcept : impl{new Impl} { }
 
 std::optional<Error> WindowImpl::init(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) noexcept {
+    hinstance = hInstance;
+
 	constexpr const char CLASS_NAME[]{"Window"};
 	wc.lpfnWndProc = WindowProc;
 	wc.hInstance = hInstance;
@@ -44,14 +48,19 @@ std::optional<Error> Window::init() noexcept {
 	return impl->init(GetModuleHandleA(NULL), NULL, LPSTR(""), 0);
 }
 
-bool Window::process_events() noexcept {
+void Window::clean_up() noexcept {
+    DestoryWindow(hwnd);
+    UnregisterClassA(wc.lpszClassName, hinstance);
+}
+
+std::expected<bool, Error> Window::process_events() noexcept {
 	MSG msg{};
 	while (PeekMessageA(&msg, impl->hwnd,  0u, 0u, PM_REMOVE))  {
-		if (msg.message == WM_QUIT) return false;
+		if (msg.message == WM_QUIT) return std::unexpected{false};
 		TranslateMessage(&msg);
 		DispatchMessageA(&msg);
 	}
-	return true;
+	return std::expected{true};
 }
 
 LRESULT CALLBACK WindowImpl::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) noexcept {

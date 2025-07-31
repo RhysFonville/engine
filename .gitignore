@@ -30,5 +30,6 @@ CTestTestfile.cmake
 _deps
 CMakeUserPresets.json
 *-prefix/
+.cache/
 
 build/

@@ -35,7 +35,10 @@ endif()
 if(WIN32)
 	add_executable(engine_total WIN32 engine/main.cpp)
 else()
-	add_executable(engine_total WIN32 engine/main.cpp)
+	add_executable(engine_total engine/main.cpp)
+
+    find_package(glfw3 3.4 REQUIRED)
+    target_link_libraries(engine_total PRIVATE glfw)
 endif()
 
 # Include headers from child project
