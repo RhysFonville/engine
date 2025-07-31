@@ -1,1 +1,1 @@
-int temp() { }
+int temp() { return 0; }
