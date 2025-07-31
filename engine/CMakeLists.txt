@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.5)
 project(engine DESCRIPTION "C++ Cross-Platform Rendering Engine" VERSION 1.0 LANGUAGES CXX)
 
 # Set C++ standard
