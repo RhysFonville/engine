@@ -5,10 +5,13 @@ project(engine DESCRIPTION "C++ Cross-Platform Rendering Engine" VERSION 1.0 LAN
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
 
 # Create the library
-add_library(engine SHARED
+add_library(engine STATIC
+	src/Window.cpp
 	include/engine/util/defines.h
 	include/engine/util/debug.h
 	include/engine/Window.h
@@ -16,7 +19,7 @@ add_library(engine SHARED
 )
 
 if(WIN32)
-	target_sources(engine PRIVATE src/Window_win32.cpp)
+	#target_sources(engine PRIVATE src/Window_win32.cpp)
 elseif(UNIX)
 	#target_sources(engine PRIVATE src/Window_linux.cpp)
 endif()
@@ -25,6 +28,15 @@ endif()
 target_include_directories(engine PUBLIC
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 	$<INSTALL_INTERFACE:include>
+)
+
+set_target_properties(engine PROPERTIES
+	ARCHIVE_OUTPUT_DIRECTORY_DEBUG   "${CMAKE_SOURCE_DIR}/build/Debug"
+	ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/build/Release"
+	LIBRARY_OUTPUT_DIRECTORY_DEBUG   "${CMAKE_SOURCE_DIR}/build/Debug"
+	LIBRARY_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/build/Release"
+	RUNTIME_OUTPUT_DIRECTORY_DEBUG   "${CMAKE_SOURCE_DIR}/build/Debug"
+	RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/build/Release"
 )
 
 set_target_properties(engine PROPERTIES VERSION ${PROJECT_VERSION})
