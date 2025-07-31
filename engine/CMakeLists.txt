@@ -7,21 +7,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
-
 # Create the library
 add_library(engine STATIC
-	src/Window.cpp
 	include/engine/util/defines.h
 	include/engine/util/debug.h
 	include/engine/Window.h
-	include/engine/Window_win32.h
 )
 
 if(WIN32)
-	#target_sources(engine PRIVATE src/Window_win32.cpp)
-elseif(UNIX)
-	#target_sources(engine PRIVATE src/Window_linux.cpp)
+	target_sources(engine PRIVATE src/Window_win32.cpp)
 endif()
 
 # Set the include directory (public API)
@@ -31,12 +25,9 @@ target_include_directories(engine PUBLIC
 )
 
 set_target_properties(engine PROPERTIES
-	ARCHIVE_OUTPUT_DIRECTORY_DEBUG   "${CMAKE_SOURCE_DIR}/build/Debug"
-	ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/build/Release"
-	LIBRARY_OUTPUT_DIRECTORY_DEBUG   "${CMAKE_SOURCE_DIR}/build/Debug"
-	LIBRARY_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/build/Release"
-	RUNTIME_OUTPUT_DIRECTORY_DEBUG   "${CMAKE_SOURCE_DIR}/build/Debug"
-	RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/build/Release"
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/${CMAKE_BUILD_TYPE}"
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/${CMAKE_BUILD_TYPE}"
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/${CMAKE_BUILD_TYPE}"
 )
 
 set_target_properties(engine PROPERTIES VERSION ${PROJECT_VERSION})
