@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(EXPORT_COMPILE_COMMANDS ON)
 
 # Create the library
-add_library(engine
+add_library(engine SHARED
 	include/engine/util/defines.h
 	include/engine/util/debug.h
 	include/engine/Window.h
@@ -18,7 +18,7 @@ add_library(engine
 if(WIN32)
 	target_sources(engine PRIVATE src/Window_win32.cpp)
 elseif(UNIX)
-	#target_sources(engine PRIVATE src/wWindow_linux.cpp)
+	#target_sources(engine PRIVATE src/Window_linux.cpp)
 endif()
 
 # Set the include directory (public API)
@@ -26,6 +26,9 @@ target_include_directories(engine PUBLIC
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 	$<INSTALL_INTERFACE:include>
 )
+
+set_target_properties(engine PROPERTIES VERSION ${PROJECT_VERSION})
+set_target_properties(engine PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR})
 
 # Define export symbol macro when building the library
 target_compile_definitions(engine PRIVATE ENGINE_EXPORTS)

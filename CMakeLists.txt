@@ -9,5 +9,5 @@ set(EXPORT_COMPILE_COMMANDS ON)
 
 add_subdirectory(engine)
 
-add_executable(total engine/main.cpp)
-target_link_libraries(total engine)
+add_executable(engine_total engine/main.cpp)
+target_link_libraries(engine_total engine)

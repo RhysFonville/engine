@@ -5,7 +5,7 @@ int main() {
 	window.init();
 
 	while (true) {
-		//if (!window.process_events()) break;
+		if (!window.process_events()) break;
 	}
 
 	return EXIT_SUCCESS;
