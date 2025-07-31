@@ -7,8 +7,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
-
 set(ENGINE_BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/engine/build")
 
 find_library(ENGINE_LIB_DEBUG
@@ -34,7 +32,11 @@ else()
 endif()
 
 # Create executable
-add_executable(engine_total engine/main.cpp)
+if(WIN32)
+	add_executable(engine_total WIN32 engine/main.cpp)
+else()
+	add_executable(engine_total WIN32 engine/main.cpp)
+endif()
 
 # Include headers from child project
 target_include_directories(engine_total PRIVATE

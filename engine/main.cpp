@@ -10,3 +10,10 @@ int main() {
 
 	return EXIT_SUCCESS;
 }
+
+#ifdef PLATFORM_WINDOWS
+#include <Windows.h>
+int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
+	main();
+}
+#endif
