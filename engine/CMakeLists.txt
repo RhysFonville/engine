@@ -13,8 +13,13 @@ add_library(engine
 	include/engine/util/debug.h
 	include/engine/Window.h
 	include/engine/Window_win32.h
-	src/Window_win32.cpp
 )
+
+if(WIN32)
+	target_sources(engine PRIVATE src/Window_win32.cpp)
+elseif(UNIX)
+	#target_sources(engine PRIVATE src/wWindow_linux.cpp)
+endif()
 
 # Set the include directory (public API)
 target_include_directories(engine PUBLIC

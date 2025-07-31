@@ -1,6 +1,12 @@
-#include <iostream>
+#include <engine/Window.h>
 
 int main() {
-	std::cout << "Hello engine!\n";
+	Window window{};
+	window.init();
+
+	while (true) {
+		//if (!window.process_events()) break;
+	}
+
 	return EXIT_SUCCESS;
 }

@@ -2,7 +2,11 @@
 
 #ifdef RENDERER_D3D12
 
-std::optional<Error> Window_win32::init(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
+struct ENGINE_API Window::Impl : public WindowImpl { };
+
+Window::Window() noexcept : impl{new Impl} { }
+
+std::optional<Error> WindowImpl::init(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) noexcept {
 	constexpr const char CLASS_NAME[]{"Window"};
 	wc.lpfnWndProc = WindowProc;
 	wc.hInstance = hInstance;
@@ -36,20 +40,21 @@ std::optional<Error> Window_win32::init(HINSTANCE hInstance, HINSTANCE hPrevInst
 	return std::nullopt;
 }
 
-std::optional<Error> Window_win32::init() {
-	return init(GetModuleHandleA(NULL), NULL, LPSTR(""), 0);
+std::optional<Error> Window::init() noexcept {
+	return impl->init(GetModuleHandleA(NULL), NULL, LPSTR(""), 0);
 }
 
-void Window_win32::process_events() const noexcept {
+bool Window::process_events() noexcept {
 	MSG msg{};
-	while (PeekMessageA(&msg, hwnd,  0u, 0u, PM_REMOVE)) 
-	{ 
+	while (PeekMessageA(&msg, impl->hwnd,  0u, 0u, PM_REMOVE))  {
+		if (msg.message == WM_QUIT) return false;
 		TranslateMessage(&msg);
 		DispatchMessageA(&msg);
-	} 
+	}
+	return true;
 }
 
-LRESULT CALLBACK Window_win32::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+LRESULT CALLBACK WindowImpl::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) noexcept {
 	switch (uMsg) {
 		case WM_DESTROY:
 			PostQuitMessage(0);
