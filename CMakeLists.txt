@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(engine_total DESCRIPTION "Engine with test project" VERSION 1.0 LANGUAGES CXX)
+project(editor DESCRIPTION "Editor for engine" VERSION 1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -33,21 +33,21 @@ endif()
 
 # Create executable
 if(WIN32)
-	add_executable(engine_total WIN32 engine/main.cpp)
+	add_executable(editor WIN32 engine/main.cpp)
 else()
-	add_executable(engine_total engine/main.cpp)
+	add_executable(editor engine/main.cpp)
 
     find_package(glfw3 3.4 REQUIRED)
-    target_link_libraries(engine_total PRIVATE glfw)
+    target_link_libraries(editor PRIVATE glfw)
 endif()
 
 # Include headers from child project
-target_include_directories(engine_total PRIVATE
+target_include_directories(editor PRIVATE
 	${CMAKE_CURRENT_SOURCE_DIR}/engine/include
 )
 
 # Link the correct library depending on build type
-target_link_libraries(engine_total PRIVATE
+target_link_libraries(editor PRIVATE
 	$<$<CONFIG:Debug>:${ENGINE_LIB_DEBUG}>
 	$<$<CONFIG:Release>:${ENGINE_LIB_RELEASE}>
 )

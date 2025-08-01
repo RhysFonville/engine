@@ -32,6 +32,7 @@ inline const std::error_category& cat_name##_category() { \
 
 class Error : public std::error_code {
 public:
+    Error() { }
 	explicit Error(std::error_code ec) 
 		: std::error_code{ec}, location{std::source_location::current()} { }
 
@@ -64,6 +65,10 @@ inline void log(LogLevel level, const auto& message) noexcept {
 	(level == LogLevel::INFO ? std::cout : std::cerr) << message << '\n';
 }
 
+inline void log(const auto& message) noexcept {
+    log(LogLevel::INFO, message);
+}
+
 inline void log(LogLevel level, const Error& error) noexcept {
 	begin_log_level(level);
 
@@ -80,3 +85,4 @@ inline void log(LogLevel level, const Error& error) noexcept {
 		". Stacktrace:\n" << error.get_stacktrace()*/ << '\n'
 	;
 }
+

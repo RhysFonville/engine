@@ -12,6 +12,7 @@ add_library(engine STATIC
 	include/engine/util/defines.h
 	include/engine/util/debug.h
 	include/engine/Window.h
+    include/engine/util/vector.h
 )
 
 if(WIN32)
@@ -66,4 +67,8 @@ enable_testing()
 add_executable(log_test tests/log_test.cpp)
 target_link_libraries(log_test PRIVATE engine)
 add_test(NAME log_test COMMAND log_test)
+
+add_executable(window_test tests/window_test.cpp)
+target_link_libraries(window_test PRIVATE engine)
+add_test(NAME window_test COMMAND window_test)
 
