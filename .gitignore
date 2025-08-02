@@ -33,3 +33,5 @@ CMakeUserPresets.json
 .cache/
 
 build/
+Debug/
+Release/

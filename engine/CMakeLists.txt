@@ -34,9 +34,12 @@ target_include_directories(engine PUBLIC
 )
 
 set_target_properties(engine PROPERTIES
-	ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/${CMAKE_BUILD_TYPE}"
-	LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/${CMAKE_BUILD_TYPE}"
-	RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/${CMAKE_BUILD_TYPE}"
+    ARCHIVE_OUTPUT_DIRECTORY_DEBUG   "${CMAKE_SOURCE_DIR}/Debug"
+    ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/Release"
+    LIBRARY_OUTPUT_DIRECTORY_DEBUG   "${CMAKE_SOURCE_DIR}/Debug"
+    LIBRARY_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/Release"
+    RUNTIME_OUTPUT_DIRECTORY_DEBUG   "${CMAKE_SOURCE_DIR}/Debug"
+    RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/Release"
 )
 
 set_target_properties(engine PROPERTIES VERSION ${PROJECT_VERSION})
@@ -64,10 +67,15 @@ install(EXPORT engine_targets
 # Testing setup
 enable_testing()
 
-add_executable(log_test tests/log_test.cpp)
-target_link_libraries(log_test PRIVATE engine)
-add_test(NAME log_test COMMAND log_test)
+macro(add_engine_test test_name)
+	add_executable(${test_name} tests/${test_name}.cpp)
+	target_link_libraries(${test_name} PRIVATE engine)
+	add_test(NAME ${test_name} COMMAND ${test_name})
+	set_target_properties(${test_name} PROPERTIES
+		RUNTIME_OUTPUT_DIRECTORY_DEBUG   "${CMAKE_SOURCE_DIR}/Debug/tests"
+		RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/Release/tests"
+	)
+endmacro()
 
-add_executable(window_test tests/window_test.cpp)
-target_link_libraries(window_test PRIVATE engine)
-add_test(NAME window_test COMMAND window_test)
+add_engine_test(log_test)
+add_engine_test(window_test)
