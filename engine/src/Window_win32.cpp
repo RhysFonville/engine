@@ -1,4 +1,4 @@
-#include "engine/Window_apple.h"
+#include "engine/Window_win32.h"
 
 #ifdef RENDERER_D3D12
 
@@ -48,19 +48,22 @@ std::optional<Error> Window::init() noexcept {
 	return impl->init(GetModuleHandleA(NULL), NULL, LPSTR(""), 0);
 }
 
-void Window::clean_up() noexcept {
-    DestoryWindow(hwnd);
-    UnregisterClassA(wc.lpszClassName, hinstance);
+std::optional<Error> Window::clean_up() noexcept {
+    if (!DestroyWindow(impl->hwnd))
+		return Error{std::error_code{(int)GetLastError(), std::system_category()}};
+
+	if (!UnregisterClassA(impl->wc.lpszClassName, impl->hinstance))
+		return Error{std::error_code{(int)GetLastError(), std::system_category()}};
 }
 
 std::expected<bool, Error> Window::process_events() noexcept {
 	MSG msg{};
 	while (PeekMessageA(&msg, impl->hwnd,  0u, 0u, PM_REMOVE))  {
-		if (msg.message == WM_QUIT) return std::unexpected{false};
+		if (msg.message == WM_QUIT) return false;
 		TranslateMessage(&msg);
 		DispatchMessageA(&msg);
 	}
-	return std::expected{true};
+	return true;
 }
 
 LRESULT CALLBACK WindowImpl::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) noexcept {

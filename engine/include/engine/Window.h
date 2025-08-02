@@ -11,7 +11,7 @@ class ENGINE_API Window {
 public:
 	Window() noexcept;
     
-    void clean_up() noexcept;
+    std::optional<Error> clean_up() noexcept;
 
 	std::optional<Error> init() noexcept;
     bool process_events() noexcept;
