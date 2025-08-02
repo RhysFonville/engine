@@ -12,19 +12,19 @@ add_library(engine STATIC
 	include/engine/util/defines.h
 	include/engine/util/debug.h
 	include/engine/Window.h
-    include/engine/util/vector.h
+	include/engine/util/vector.h
 )
 
 if(WIN32)
 	target_sources(engine PRIVATE src/Window_win32.cpp)
 elseif(APPLE)
-    target_sources(engine PRIVATE src/Window_apple.cpp)
+	target_sources(engine PRIVATE src/Window_apple.cpp)
 
-    find_package(Vulkan REQUIRED)
-    target_link_libraries(engine PRIVATE ${Vulkan_INCLUDE_DIRS})
+	find_package(Vulkan REQUIRED)
+	target_link_libraries(engine PRIVATE ${Vulkan_INCLUDE_DIRS})
 
-    find_package(glfw3 3.4 REQUIRED)
-    target_link_libraries(engine PRIVATE glfw)
+	find_package(glfw3 3.4 REQUIRED)
+	target_link_libraries(engine PRIVATE glfw)
 endif()
 
 # Set the include directory (public API)
@@ -34,9 +34,9 @@ target_include_directories(engine PUBLIC
 )
 
 set_target_properties(engine PROPERTIES
-    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/${CMAKE_BUILD_TYPE}"
-    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/${CMAKE_BUILD_TYPE}"
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/${CMAKE_BUILD_TYPE}"
+	ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/${CMAKE_BUILD_TYPE}"
+	LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/${CMAKE_BUILD_TYPE}"
+	RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/${CMAKE_BUILD_TYPE}"
 )
 
 set_target_properties(engine PROPERTIES VERSION ${PROJECT_VERSION})
@@ -71,4 +71,3 @@ add_test(NAME log_test COMMAND log_test)
 add_executable(window_test tests/window_test.cpp)
 target_link_libraries(window_test PRIVATE engine)
 add_test(NAME window_test COMMAND window_test)
-

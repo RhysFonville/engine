@@ -42,6 +42,8 @@ public:
     float get_opacity() const noexcept;
     void set_opacity(float opacity) const noexcept;
 
+    void send_to_front() const noexcept;
+
 private:
     struct Impl;
 	Impl* impl{nullptr};

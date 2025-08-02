@@ -21,20 +21,20 @@ public: \
 	std::string message(int ev) const override { \
 		static std::unordered_map<int, std::string> err_codes __VA_ARGS__; \
 		auto it = err_codes.find(ev); \
-        if (it != err_codes.end()) return it->second; \
-        return "Unknown error"; \
+		if (it != err_codes.end()) return it->second; \
+		return "Unknown error"; \
 	} \
 };\
 inline const std::error_category& cat_name##_category() { \
-    static _##cat_name##_category instance; \
-    return instance; \
+	static _##cat_name##_category instance; \
+	return instance; \
 }\
 
 class Error : public std::error_code {
 public:
-    Error() { }
-	explicit Error(std::error_code ec) 
-		: std::error_code{ec}, location{std::source_location::current()} { }
+	Error() { }
+	explicit Error(std::error_code ec)
+		: std::error_code{ ec }, location{ std::source_location::current() } { }
 
 	NODISC std::source_location get_location() const noexcept { return location; }
 	//NODISC std::stacktrace get_stacktrace() const noexcept { return stacktrace; }
@@ -54,10 +54,10 @@ enum class LogLevel {
 };
 
 inline void begin_log_level(LogLevel level) noexcept {
-	if		(level == LogLevel::FATAL)	{ std::cerr << "FATAL: "; }
-	else if	(level == LogLevel::ERROR)	{ std::cerr << "ERROR: "; }
-	else if	(level == LogLevel::WARN)	{ std::cerr << "WARN: "; }
-	else if	(level == LogLevel::INFO)	{ std::cout << "INFO: "; }
+	if (level == LogLevel::FATAL) { std::cerr << "FATAL: "; }
+	else if (level == LogLevel::ERROR) { std::cerr << "ERROR: "; }
+	else if (level == LogLevel::WARN) { std::cerr << "WARN: "; }
+	else if (level == LogLevel::INFO) { std::cout << "INFO: "; }
 }
 
 inline void log(LogLevel level, const auto& message) noexcept {
@@ -66,7 +66,7 @@ inline void log(LogLevel level, const auto& message) noexcept {
 }
 
 inline void log(const auto& message) noexcept {
-    log(LogLevel::INFO, message);
+	log(LogLevel::INFO, message);
 }
 
 inline void log(LogLevel level, const Error& error) noexcept {
@@ -85,4 +85,3 @@ inline void log(LogLevel level, const Error& error) noexcept {
 		". Stacktrace:\n" << error.get_stacktrace()*/ << '\n'
 	;
 }
-

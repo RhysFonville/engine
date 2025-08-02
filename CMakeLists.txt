@@ -37,8 +37,8 @@ if(WIN32)
 else()
 	add_executable(editor engine/main.cpp)
 
-    find_package(glfw3 3.4 REQUIRED)
-    target_link_libraries(editor PRIVATE glfw)
+	find_package(glfw3 3.4 REQUIRED)
+	target_link_libraries(editor PRIVATE glfw)
 endif()
 
 # Include headers from child project
