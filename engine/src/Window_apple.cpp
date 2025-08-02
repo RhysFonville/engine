@@ -110,3 +110,7 @@ void Window::set_opacity(float opacity) const noexcept {
     glfwSetWindowOpacity(impl->window, opacity);
 }
 
+void Window::send_to_front() const noexcept {
+    focus();
+}
+
