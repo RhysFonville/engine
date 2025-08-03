@@ -6,8 +6,7 @@
 #include "util/debug.h"
 #include "util/vector.h"
 
-
-class ENGINE_API Window {
+class Window {
 public:
 	Window() noexcept;
     

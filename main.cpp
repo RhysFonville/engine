@@ -1,4 +1,5 @@
 #include <engine/Window.h>
+#include <engine/Window_win32.h>
 #include <chrono>
 #include <thread>
 
@@ -7,10 +8,15 @@ void sleep(Window& window) {
     std::this_thread::sleep_for(std::chrono::seconds{3});
 }
 
+#undef ERROR
+
 int main() {
     log("Creating");
 	Window window{};
-    if (auto err{window.init()})  {log(LogLevel::ERROR, err.value()); return EXIT_FAILURE; }
+    if (auto err{window.init()}) {
+		log(LogLevel::ERROR, err.value());
+		return EXIT_FAILURE;
+	}
     sleep(window);
 
     log("Hiding");

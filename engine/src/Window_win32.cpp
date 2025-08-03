@@ -4,7 +4,7 @@
 
 #include "engine/Window.h"
 
-struct ENGINE_API Window::Impl : public WindowImpl { };
+struct Window::Impl : public WindowImpl { };
 
 static std::optional<std::pair<Vector2, Vector2>> set_size_limit{std::nullopt};
 
@@ -18,10 +18,8 @@ std::optional<Error> WindowImpl::init(HINSTANCE hInstance, HINSTANCE hPrevInstan
 	wc.hInstance = hInstance;
 	wc.lpszClassName = CLASS_NAME;
 	
-	RegisterClassA(&wc);
-
-	if (auto err{GetLastError()}; err == 0)
-		return Error{std::error_code{(int)err, std::system_category()}};
+	if (!RegisterClassA(&wc))
+		return Error{std::error_code{(int)GetLastError(), std::system_category()}};
 
 	// Create the window
 	hwnd = CreateWindowExA(
@@ -37,9 +35,8 @@ std::optional<Error> WindowImpl::init(HINSTANCE hInstance, HINSTANCE hPrevInstan
 		NULL                            // Additional application data
 	);
 
-	if (hwnd == NULL) {
+	if (hwnd == NULL)
 		return Error{std::error_code{(int)GetLastError(), std::system_category()}};
-	}
 
 	ShowWindow(hwnd, nCmdShow);
 
@@ -72,18 +69,8 @@ bool Window::process_events() noexcept {
 
 LRESULT CALLBACK WindowImpl::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) noexcept {
 	switch (uMsg) {
-		case WM_DESTROY:
+		case WM_DESTROY: {
 			PostQuitMessage(0);
-			return 0;
-
-		case WM_PAINT: {
-			PAINTSTRUCT ps;
-			HDC hdc = BeginPaint(hwnd, &ps);
-
-			// Draw "Hello, World!"
-			TextOutA(hdc, 10, 10, "Hello, World!", (int)wcslen(L"Hello, World!"));
-
-			EndPaint(hwnd, &ps);
 			return 0;
 		}
 		case WM_GETMINMAXINFO: {
