@@ -26,9 +26,10 @@ std::optional<Error> Window::init() noexcept {
     return std::nullopt;
 }
 
-void Window::clean_up() noexcept {
+std::optional<Error> Window::clean_up() noexcept {
     glfwTerminate();
     glfwDestroyWindow(impl->window);
+    return std::nullopt;
 }
 
 void WindowImpl::error_callback(int error, const char* description) noexcept {

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include <fstream>
 #include "AssetLoader.h"
 
 class TextLoader : public AssetLoader<std::string> {
@@ -10,3 +9,4 @@ public:
 
 	std::shared_ptr<std::string> load_typed(const std::string& file);
 };
+

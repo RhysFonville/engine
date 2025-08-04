@@ -5,6 +5,7 @@
 
 class IAssetLoader {
 public:
+    virtual ~IAssetLoader() = default;
 	virtual std::shared_ptr<void> load(const std::string& filename) = 0;
 };
 
