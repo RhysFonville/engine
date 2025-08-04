@@ -7,12 +7,24 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+set(INCLUDE_DIR include/engine)
+
 # Create the library
 add_library(engine STATIC
-	include/engine/util/defines.h
-	include/engine/util/debug.h
-	include/engine/Window.h
-	include/engine/util/vector.h
+	# Header files not needed, just good for IDEs (like visual studio)
+	${INCLUDE_DIR}/util/defines.h
+	${INCLUDE_DIR}/util/debug.h
+	${INCLUDE_DIR}/Window.h
+	${INCLUDE_DIR}/util/vector.h
+	${INCLUDE_DIR}/Window_win32.h
+	${INCLUDE_DIR}/Window_apple.h
+	${INCLUDE_DIR}/AssetManager/AssetManager.h
+	${INCLUDE_DIR}/AssetManager/AssetLoader.h
+	${INCLUDE_DIR}/AssetManager/TextLoader.h
+
+	src/AssetManager/AssetManager.cpp
+	src/AssetManager/AssetLoader.cpp
+	src/AssetManager/TextLoader.cpp
 )
 
 if(WIN32)
