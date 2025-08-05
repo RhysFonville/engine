@@ -1,7 +1,6 @@
 #pragma once
 
 #include <optional>
-#include <expected>
 
 #include "util/debug.h"
 #include "util/vector.h"

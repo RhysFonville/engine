@@ -4,6 +4,7 @@
 #include <system_error>
 #include <source_location>
 #include <string>
+#include <type_traits>
 #include <unordered_map>
 //#include <stacktrace>
 
@@ -33,8 +34,10 @@ inline const std::error_category& cat_name##_category() { \
 class Error : public std::error_code {
 public:
 	Error() { }
-	explicit Error(std::error_code ec)
-		: std::error_code{ ec }, location{ std::source_location::current() } { }
+	explicit Error(const std::error_code& ec)
+		: std::error_code{ec}, location{std::source_location::current()} { }
+	explicit Error(int code, const std::error_category& cat)
+		: std::error_code{code, cat}, location{std::source_location::current()} { }
 
 	NODISC std::source_location get_location() const noexcept { return location; }
 	//NODISC std::stacktrace get_stacktrace() const noexcept { return stacktrace; }
