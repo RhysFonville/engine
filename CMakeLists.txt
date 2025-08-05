@@ -6,6 +6,11 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+execute_process(
+    COMMAND {$CMAKE_CMOMAND} -E create_symlink
+        ${CMAKE_BINARY_DIR}/compile_commands.json
+        ${CMAKE_CURRENT_SOURCE_FIR}/compile_commands.json
+)
 
 set(ENGINE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/engine")
 
@@ -49,6 +54,13 @@ set_target_properties(editor PROPERTIES
 # Include headers from child project
 target_include_directories(editor PRIVATE
 	${ENGINE_DIR}/include
+)
+
+# Create symlink to compile_commands.json for IDE to pick it up
+execute_process(
+	COMMAND ${CMAKE_COMMAND} -E create_symlink
+    ${CMAKE_BINARY_DIR}/compile_commands.json
+	${CMAKE_CURRENT_SOURCE_DIR}/compile_commands.json
 )
 
 # Link the correct library depending on build type

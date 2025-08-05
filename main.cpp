@@ -5,14 +5,16 @@
 
 int main() {
 	AssetManager* am{AssetManager::get_instance()};
-	std::shared_ptr<std::string> str{am->load<std::string>("test.txt")};
-	std::shared_ptr<std::string> str2{am->load<std::string>("test.txt")};
+    auto str{am->load<std::string>("test.txt")};
+    if (!str.has_value()) log(str.error());
+	auto str2{am->load<std::string>("test.txt")};
+    if (!str2.has_value()) log(str.error());
 
-    std::cout << static_cast<const void*>(str.get()) << ' ' <<
-        static_cast<const void*>(str2.get()) << '\n';
+    std::cout << static_cast<const void*>(str.value().get()) << ' ' <<
+        static_cast<const void*>(str2.value().get()) << '\n';
 
-    std::cout << *str << "\n\n";
-    std::cout << *str2 << "\n\n";
+    std::cout << **str << "\n\n";
+    std::cout << **str2 << "\n\n";
 
 	return EXIT_SUCCESS;
 }

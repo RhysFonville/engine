@@ -7,6 +7,6 @@ class TextLoader : public AssetLoader<std::string> {
 public:
 	TextLoader() { }
 
-	std::shared_ptr<std::string> load_typed(const std::string& file);
+    std::expected<std::shared_ptr<std::string>, Error> load_typed(const std::string& file) override;
 };
 

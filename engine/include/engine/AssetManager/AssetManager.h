@@ -5,6 +5,10 @@
 #include <unordered_map>
 #include "AssetLoader.h"
 
+CREATE_ERROR_CATEGORY(asset_manager, {
+    {1, "Cannot find loader for this asset type"}
+})
+
 class AssetManager {
 public:
 	AssetManager(AssetManager& other) = delete;
@@ -17,7 +21,7 @@ public:
 	}
 
 	template<typename T>
-	std::shared_ptr<T> load(const std::string& filename) noexcept {
+	std::expected<std::shared_ptr<T>, Error> load(const std::string& filename) noexcept {
 		auto type_id{typeid(T).hash_code()};
 
 		// Cache lookup
@@ -29,13 +33,17 @@ public:
 
 		auto loader_it{loaders.find(type_id)};
 		if (loader_it == loaders.end()) {
-			//throw std::runtime_error("No loader registered for this asset type");
+            return std::unexpected{Error{1, asset_manager_category()}};
 		}
 
 		// Load and cache
-		auto loaded{loader_it->second->load(filename)};
-		type_cache[filename] = std::weak_ptr{loaded};
-		return std::static_pointer_cast<T>(loaded);
+        std::expected<std::shared_ptr<void>, Error> loaded{loader_it->second->load(filename)};
+        if (!loaded.has_value()) return std::unexpected{loaded.error()};
+
+        log("asset manager");
+
+		type_cache[filename] = std::weak_ptr{loaded.value()};
+		return std::static_pointer_cast<T>(loaded.value());
 	}
 
 private:
