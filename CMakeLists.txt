@@ -57,11 +57,13 @@ target_include_directories(editor PRIVATE
 )
 
 # Create symlink to compile_commands.json for IDE to pick it up
-execute_process(
-	COMMAND ${CMAKE_COMMAND} -E create_symlink
-    ${CMAKE_BINARY_DIR}/compile_commands.json
-	${CMAKE_CURRENT_SOURCE_DIR}/compile_commands.json
-)
+if(UNIX)
+	execute_process(
+		COMMAND ${CMAKE_COMMAND} -E create_symlink
+		${CMAKE_BINARY_DIR}/compile_commands.json
+		${CMAKE_CURRENT_SOURCE_DIR}/compile_commands.json
+	)
+endif()
 
 # Link the correct library depending on build type
 target_link_libraries(editor PRIVATE

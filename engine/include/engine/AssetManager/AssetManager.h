@@ -40,8 +40,6 @@ public:
         std::expected<std::shared_ptr<void>, Error> loaded{loader_it->second->load(filename)};
         if (!loaded.has_value()) return std::unexpected{loaded.error()};
 
-        log("asset manager");
-
 		type_cache[filename] = std::weak_ptr{loaded.value()};
 		return std::static_pointer_cast<T>(loaded.value());
 	}
