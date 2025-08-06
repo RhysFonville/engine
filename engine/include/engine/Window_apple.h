@@ -22,8 +22,9 @@ CREATE_ERROR_CATEGORY(glfw, {
 	{0x0001000A, "The specified window does not have an OpenGL or OpenGL ES context"},
 })
 
-struct ENGINE_API WindowImpl {
+struct WindowImpl {
 	static void error_callback(int error, const char* description) noexcept;
+    static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) noexcept;
 
 	GLFWwindow* window{nullptr};
 };

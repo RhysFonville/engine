@@ -1,20 +1,26 @@
-#include <iostream>
-#include <engine/AssetManager/AssetManager.h>
+#include <engine/Window.h>
+#include <engine/Input/InputSet.h>
 
 #undef ERROR
 
 int main() {
-	AssetManager* am{AssetManager::get_instance()};
-    auto str{am->load<std::string>("test.txt")};
-    if (!str.has_value()) log(str.error());
-	auto str2{am->load<std::string>("test.txt")};
-    if (!str2.has_value()) log(str.error());
+    Window window{};
+    window.init();
 
-    std::cout << static_cast<const void*>(str.value().get()) << ' ' <<
-        static_cast<const void*>(str2.value().get()) << '\n';
+    InputSet set{};
+    set.set_keybinds({
+        Keybind{Key::A, KeyEvent::Down, [&]() -> void {
+            log(LogLevel::INFO, "A is pressed.");
+        }},
+        Keybind{Key::A, KeyEvent::Up, [&]() -> void {
+            log(LogLevel::INFO, "A is released.");
+        }},
+        Keybind{Key::A, KeyEvent::CurrentlyDown, [&]() -> void {
+            log(LogLevel::INFO, "A is held.");
+        }}
+    });
 
-    std::cout << **str << "\n\n";
-    std::cout << **str2 << "\n\n";
+    while (window.process_events()) { }
 
 	return EXIT_SUCCESS;
 }

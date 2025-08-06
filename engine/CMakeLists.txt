@@ -21,10 +21,14 @@ add_library(engine STATIC
 	${INCLUDE_DIR}/AssetManager/AssetManager.h
 	${INCLUDE_DIR}/AssetManager/AssetLoader.h
 	${INCLUDE_DIR}/AssetManager/TextLoader.h
+    ${INCLUDE_DIR}/Input/InputSet.h
+    ${INCLUDE_DIR}/Input/Key.h
+    ${INCLUDE_DIR}/Input/Keybind.h
 
 	src/AssetManager/AssetManager.cpp
 	src/AssetManager/AssetLoader.cpp
 	src/AssetManager/TextLoader.cpp
+    src/Input/InputSet.cpp
 )
 
 if(WIN32)
