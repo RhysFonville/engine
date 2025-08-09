@@ -10,7 +10,6 @@ public:
 	void tick() noexcept;
 	void clean_up() noexcept;
 
-private:
 	std::string name{};
 };
 

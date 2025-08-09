@@ -11,6 +11,8 @@ public:
 	void tick() noexcept;
 	void clean_up() noexcept;
 
+	const std::vector<Object>& get_objects() const noexcept { return objects; }
+
 private:
 	std::vector<Object> objects{};
 };

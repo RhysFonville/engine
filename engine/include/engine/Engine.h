@@ -14,10 +14,10 @@ public:
 	void run() noexcept;
 	bool is_running() const noexcept;
 
-private:
 	World world{};
 	VisualInterface visuals{};
 
+private:
 	bool running{true};
 };
 
