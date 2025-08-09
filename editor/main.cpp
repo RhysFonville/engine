@@ -1,15 +1,13 @@
-#include <engine/Input/InputSet.h>
-#include <engine/Scene/Engine.h>
-
-#undef ERROR
+#include "Editor/Editor.h"
 
 int main(int argc, char* argv[]) {
-	Engine engine{};
-	engine.init();
-
+	Editor editor{};
+	if (auto res{editor.init(std::string{argc > 1 ? argv[1] : ""})}; res.has_value()) {
+		log(LogLevel::FATAL, res.value());
+		return EXIT_FAILURE;
+	}
 	
-
-	engine.run();
+	editor.run();
 
 	return EXIT_SUCCESS;
 }

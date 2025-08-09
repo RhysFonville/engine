@@ -1,4 +1,4 @@
-#include "engine/Scene/VisualInterface.h"
+#include "engine/VisualInterface.h"
 
 std::optional<Error> VisualInterface::init() noexcept {
 	return window.init();

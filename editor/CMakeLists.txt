@@ -36,11 +36,13 @@ else()
 	message(STATUS "Release version of engine.lib found")
 endif()
 
+set(EXE_FILES main.cpp Editor/Editor.cpp)
+
 # Create executable
 if(WIN32)
-	add_executable(editor WIN32 main.cpp)
+	add_executable(editor WIN32 ${EXE_FILES})
 else()
-	add_executable(editor main.cpp)
+	add_executable(editor ${EXE_FILES})
 
 	find_package(glfw3 3.4 REQUIRED)
 	target_link_libraries(editor PRIVATE glfw)
