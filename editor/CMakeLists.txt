@@ -12,7 +12,7 @@ execute_process(
         ${CMAKE_CURRENT_SOURCE_FIR}/compile_commands.json
 )
 
-set(ENGINE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/engine")
+set(ENGINE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../engine")
 
 find_library(ENGINE_LIB_DEBUG
 	NAMES engine

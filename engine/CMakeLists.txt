@@ -24,11 +24,21 @@ add_library(engine STATIC
     ${INCLUDE_DIR}/Input/InputSet.h
     ${INCLUDE_DIR}/Input/Key.h
     ${INCLUDE_DIR}/Input/Keybind.h
+	${INCLUDE_DIR}/Scene/Engine.h
+	${INCLUDE_DIR}/Scene/Object.h
+	${INCLUDE_DIR}/Scene/Scene.h
+	${INCLUDE_DIR}/Scene/VisualInterface.h
+	${INCLUDE_DIR}/Scene/World.h
 
 	src/AssetManager/AssetManager.cpp
 	src/AssetManager/AssetLoader.cpp
 	src/AssetManager/TextLoader.cpp
     src/Input/InputSet.cpp
+	src/Scene/Engine.cpp
+	src/Scene/Object.cpp
+	src/Scene/Scene.cpp
+	src/Scene/VisualInterface.cpp
+	src/Scene/World.cpp
 )
 
 if(WIN32)
