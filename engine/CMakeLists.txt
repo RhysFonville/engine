@@ -30,6 +30,7 @@ add_library(engine STATIC
 	${INCLUDE_DIR}/Scene/Scene.h
 	${INCLUDE_DIR}/Scene/World.h
 
+	src/Window.cpp
 	src/AssetManager/AssetManager.cpp
 	src/AssetManager/AssetLoader.cpp
 	src/AssetManager/TextLoader.cpp
@@ -118,3 +119,4 @@ endmacro()
 add_engine_test(log_test)
 add_engine_test(window_test)
 add_engine_test(asset_manager_test)
+

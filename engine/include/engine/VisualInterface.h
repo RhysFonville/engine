@@ -12,9 +12,9 @@ public:
 
 	bool close() const noexcept;
 
-private:
 	Window window{};
 	// TODO: Renderer renderer{};
 	
+private:
 	bool close_request{};
 };

@@ -14,6 +14,7 @@ public:
 	std::optional<Error> init() noexcept;
     bool process_events() noexcept;
 
+	const void* get_window_handle() const noexcept;
     void minimize() const noexcept;
     void restore() const noexcept;
 
@@ -45,4 +46,6 @@ public:
 private:
     struct Impl;
 	Impl* impl{nullptr};
+
+	void* window_handle{nullptr};
 };

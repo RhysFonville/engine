@@ -36,7 +36,51 @@ else()
 	message(STATUS "Release version of engine.lib found")
 endif()
 
-set(EXE_FILES main.cpp Editor/Editor.cpp)
+if(APPLE)
+	set(IMGUI_PLATFORM_FILES
+		imgui/backends/imgui_impl_glfw.h
+		imgui/backends/imgui_impl_metal.h
+	)
+	set(PLATFORM_FILES
+		Editor/UI/EditorUI_apple.cpp
+	)
+elseif(WIN32)
+	set(IMGUI_PLATFORM_FILES
+		imgui/backends/imgui_impl_dx12.h
+		imgui/backends/imgui_impl_win32.h
+	)
+	set(PLATFORM_FILES
+		
+	)
+endif()
+
+set(IMGUI_FILES
+	${IMGUI_PLATFORM_FILES}
+	imgui/imconfig.h
+	imgui/imgui.cpp
+	imgui/imgui.h
+	imgui/imgui_demo.cpp
+	imgui/imgui_draw.cpp
+	imgui/imgui_internal.h
+	imgui/imgui_tables.cpp
+	imgui/imgui_widgets.cpp
+	imgui/imstb_rectpack.h
+	imgui/imstb_textedit.h
+	imgui/imstb_truetype.h
+	imgui/misc/cpp/imgui_stdlib.cpp
+	imgui/misc/cpp/imgui_stdlib.h
+)
+set(EXE_FILES
+	Editor/Editor.h
+	Editor/UI/EditorUI.h
+	Editor/UI/Widget/Widget.h
+	Editor/UI/Widget/FileWidget.h
+
+	main.cpp
+	${IMGUI_FILES}
+	Editor/Editor.cpp
+	Editor/UI/Widget/FileWidget.cpp
+)
 
 # Create executable
 if(WIN32)
@@ -56,6 +100,8 @@ set_target_properties(editor PROPERTIES
 # Include headers from child project
 target_include_directories(editor PRIVATE
 	${ENGINE_DIR}/include
+	imgui/
+	imgui/backends/
 )
 
 # Create symlink to compile_commands.json for IDE to pick it up
