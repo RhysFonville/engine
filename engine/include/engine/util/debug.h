@@ -82,13 +82,12 @@ inline void log(LogLevel level, const Error& error) noexcept {
 	const std::source_location& loc{error.get_location()};
 	(level == LogLevel::INFO ? std::cout : std::cerr) <<
 		"Error code " << error.value() <<
-		"(" << error.category().message(error.value()) << ")" <<
+		" (" << error.category().message(error.value()) << ")" <<
 		" of category " << error.category().name() <<
 		" at " <<
 		std::to_string(loc.column()) + ":" +
 		std::to_string(loc.line()) + ":" +
-		loc.function_name() + ":" +
-		loc.file_name() /*<<
-		". Stacktrace:\n" << error.get_stacktrace()*/ << '\n'
+		loc.function_name() /*+ ":"
+		". Stacktrace:\n" + error.get_stacktrace()*/ + '\n'
 	;
 }
