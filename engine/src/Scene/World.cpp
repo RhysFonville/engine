@@ -1,29 +1,42 @@
 #include "engine/Scene/World.h"
 
 void World::init() noexcept {
-
+	if (active_scene != scenes.size())
+		get_active_scene()->init();
 }
 
 void World::tick() noexcept {
-	if (active_scene.has_value())
-		active_scene.value()->get()->tick();
+	if (active_scene != scenes.size())
+		get_active_scene()->tick();
 }
 
 void World::clean_up() noexcept {
-	if (active_scene.has_value())
-		active_scene.value()->get()->tick();
+	if (active_scene != scenes.size())
+		get_active_scene()->tick();
 }
 
-void World::activate_scene(size_t i) noexcept {
-	if (active_scene.has_value())
-		active_scene.value()->get()->clean_up();
+std::optional<Error> World::activate_scene(size_t i) noexcept {
+	if (i >= scenes.size()) return Error{1, world_category()};
 
-	active_scene = scenes.begin()+i;
-	active_scene.value()->get()->init();
+	if (active_scene != scenes.size())
+		get_active_scene()->clean_up();
+
+	active_scene = i;
+	get_active_scene()->init();
+
+	return std::nullopt;
 }
 
-void World::add_scene(const std::shared_ptr<Scene>& scene, bool activate) noexcept {
+std::optional<Error> World::add_scene(const std::shared_ptr<Scene>& scene, bool activate) noexcept {
+	if (scene == nullptr) return Error{1, world_category()};
+
+	if (active_scene == scenes.size())
+		active_scene++;
+
 	scenes.emplace_back(scene);
+
 	if (activate) activate_scene(scenes.size()-1);
+
+	return std::nullopt;
 }
 

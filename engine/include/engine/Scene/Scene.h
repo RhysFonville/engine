@@ -12,6 +12,7 @@ public:
 	void clean_up() noexcept;
 
 	const std::vector<Object>& get_objects() const noexcept { return objects; }
+	void add_object(const Object& object) noexcept;
 
 private:
 	std::vector<Object> objects{};

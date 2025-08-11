@@ -39,6 +39,10 @@ public:
 	explicit Error(int code, const std::error_category& cat)
 		: std::error_code{code, cat}, location{std::source_location::current()} { }
 
+	operator int() const noexcept {
+		return value();
+	}
+
 	NODISC std::source_location get_location() const noexcept { return location; }
 	//NODISC std::stacktrace get_stacktrace() const noexcept { return stacktrace; }
 

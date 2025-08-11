@@ -3,11 +3,8 @@
 #ifdef RENDERER_VULKAN
 
 #include <ranges>
-#include <algorithm>
 #include "engine/Input/InputSet.h"
 #include "engine/Window.h"
-
-struct Window::Impl : public WindowImpl { };
 
 static std::optional<Error> glfw_error{std::nullopt};
 static std::optional<Error> consume_glfw_error() noexcept {
@@ -24,11 +21,11 @@ static std::map<Key, bool> keys_hold{
     ) | std::ranges::to<std::map<Key, bool>>()
 };
 
-void WindowImpl::error_callback(int error, const char* description) noexcept {
+void Window::Impl::error_callback(int error, const char* description) noexcept {
 	glfw_error = Error{std::error_code{error, glfw_category()}};
 }
 
-void WindowImpl::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) noexcept {
+void Window::Impl::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) noexcept {
     if (action == GLFW_PRESS) {
         keys_hold[apple_to_key[scancode]] = true;
     } else if (action == GLFW_RELEASE) {
@@ -44,7 +41,12 @@ void WindowImpl::key_callback(GLFWwindow* window, int key, int scancode, int act
 	}
 }
 
-Window::Window() noexcept : impl{new Impl} { }
+Window::Window() noexcept : impl{std::make_unique<Impl>()} { }
+Window::~Window() = default;
+
+const void* Window::get_window_handle() const noexcept {
+	return (void*)impl->window;
+}
 
 std::optional<Error> Window::init() noexcept {
 	if (!glfwInit()) return Error{std::error_code{1, glfw_category()}};

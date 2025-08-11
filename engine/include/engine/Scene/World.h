@@ -1,24 +1,30 @@
 #pragma once
 
 #include <vector>
-#include <optional>
 #include "Scene.h"
+#include "engine/util/debug.h"
+
+CREATE_ERROR_CATEGORY(world, {
+	{1, "Index of scene to activate out of bounds"},
+	{2, "Nullptr passed when adding new scene"}
+})
 
 class World {
 public:
-	World() {}
+	World() : active_scene{scenes.size()} {}
 
 	void init() noexcept;
 	void tick() noexcept;
 	void clean_up() noexcept;
 
-	void activate_scene(size_t i) noexcept;
-	void add_scene(const std::shared_ptr<Scene>& scene, bool activate = true) noexcept;
+	std::optional<Error> activate_scene(size_t i) noexcept;
+	std::optional<Error> add_scene(const std::shared_ptr<Scene>& scene, bool activate = true) noexcept;
 
 	const std::vector<std::shared_ptr<Scene>>& get_scenes() const noexcept { return scenes; }
+	const std::shared_ptr<Scene>& get_active_scene() const noexcept { return scenes[active_scene]; }
 
 private:
 	std::vector<std::shared_ptr<Scene>> scenes{};
-	std::optional<std::vector<std::shared_ptr<Scene>>::iterator> active_scene{std::nullopt};
+	size_t active_scene{};
 };
 

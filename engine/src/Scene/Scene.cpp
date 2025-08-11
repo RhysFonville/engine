@@ -18,3 +18,7 @@ void Scene::clean_up() noexcept {
 	}
 }
 
+void Scene::add_object(const Object& object) noexcept {
+	objects.emplace_back(object);
+}
+

@@ -8,6 +8,7 @@
 class Window {
 public:
 	Window() noexcept;
+	~Window();
     
     std::optional<Error> clean_up() noexcept;
 
@@ -45,7 +46,6 @@ public:
 
 private:
     struct Impl;
-	Impl* impl{nullptr};
-
-	void* window_handle{nullptr};
+	std::unique_ptr<Impl> impl{};
 };
+

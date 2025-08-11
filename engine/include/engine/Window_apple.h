@@ -6,6 +6,7 @@
 
 #include <GLFW/glfw3.h>
 #include "engine/util/debug.h"
+#include "engine/Window.h"
 
 CREATE_ERROR_CATEGORY(glfw, {
     {1, "Unable to initialize GLFW window"},
@@ -22,7 +23,7 @@ CREATE_ERROR_CATEGORY(glfw, {
 	{0x0001000A, "The specified window does not have an OpenGL or OpenGL ES context"},
 })
 
-struct WindowImpl {
+struct Window::Impl {
 	static void error_callback(int error, const char* description) noexcept;
     static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) noexcept;
 
