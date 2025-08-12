@@ -1,7 +1,7 @@
 #include "engine/Scene/Object.h"
 
-void Object::init() noexcept {
-
+std::expected<Object, Error> Object::init() noexcept {
+	return Object{};
 }
 
 void Object::tick() noexcept {

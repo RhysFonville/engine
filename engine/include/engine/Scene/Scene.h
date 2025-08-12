@@ -5,9 +5,7 @@
 
 class Scene {
 public:
-	Scene() {}
-	
-	void init() noexcept;
+	static std::expected<Scene, Error> init() noexcept;
 	void tick() noexcept;
 	void clean_up() noexcept;
 
@@ -15,6 +13,8 @@ public:
 	void add_object(const Object& object) noexcept;
 
 private:
+	Scene() {}
+
 	std::vector<Object> objects{};
 };
 

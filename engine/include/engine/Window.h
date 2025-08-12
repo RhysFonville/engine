@@ -1,18 +1,20 @@
 #pragma once
 
 #include <optional>
+#include <expected>
 
 #include "util/debug.h"
 #include "util/vector.h"
 
 class Window {
 public:
-	Window() noexcept;
+	Window(Window&&) noexcept;
+    Window& operator=(Window&&) noexcept;
 	~Window();
-    
+
     std::optional<Error> clean_up() noexcept;
 
-	std::optional<Error> init() noexcept;
+	static std::expected<Window, Error> init() noexcept;
     bool process_events() noexcept;
 
 	const void* get_window_handle() const noexcept;
@@ -45,7 +47,9 @@ public:
     void send_to_front() const noexcept;
 
 private:
+	Window() noexcept;
+
     struct Impl;
-	std::unique_ptr<Impl> impl{};
+	std::unique_ptr<Impl> impl;
 };
 

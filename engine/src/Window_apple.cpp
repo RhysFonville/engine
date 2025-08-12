@@ -41,6 +41,8 @@ void Window::Impl::key_callback(GLFWwindow* window, int key, int scancode, int a
 	}
 }
 
+Window::Window(Window&&) noexcept = default;
+Window& Window::operator=(Window&&) noexcept = default;
 Window::Window() noexcept : impl{std::make_unique<Impl>()} { }
 Window::~Window() = default;
 
@@ -48,17 +50,18 @@ const void* Window::get_window_handle() const noexcept {
 	return (void*)impl->window;
 }
 
-std::optional<Error> Window::init() noexcept {
-	if (!glfwInit()) return Error{std::error_code{1, glfw_category()}};
+std::expected<Window, Error> Window::init() noexcept {
+	Window window{};
+	if (!glfwInit()) return std::unexpected<Error>{std::error_code{1, glfw_category()}};
 
-	glfwSetErrorCallback(impl->error_callback);
+	glfwSetErrorCallback(window.impl->error_callback);
 	
-	impl->window = glfwCreateWindow(640, 480, "Engine window", NULL, NULL);
-	if (auto err{consume_glfw_error()}) return err.value();
+	window.impl->window = glfwCreateWindow(640, 480, "Engine window", NULL, NULL);
+	if (auto err{consume_glfw_error()}) return std::unexpected{err.value()};
 
-	glfwSetKeyCallback(impl->window, impl->key_callback);
+	glfwSetKeyCallback(window.impl->window, window.impl->key_callback);
 
-	return std::nullopt;
+	return window;
 }
 
 std::optional<Error> Window::clean_up() noexcept {

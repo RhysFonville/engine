@@ -1,8 +1,13 @@
 #include "engine/Engine.h"
 
-std::optional<Error> Engine::init() noexcept {
-	world.init();
-	return visuals.init();
+std::expected<Engine, Error> Engine::init() noexcept {
+	auto w{World::init()};
+	auto vi{VisualInterface::init()};
+	auto am{AssetManager::init()};
+	if (!w.has_value()) return std::unexpected{w.error()};
+	if (!vi.has_value()) return std::unexpected{vi.error()};
+	if (!am.has_value()) return std::unexpected{am.error()};
+	return Engine{std::move(*w), std::move(*vi), std::move(*am)};
 }
 
 void Engine::tick() noexcept {

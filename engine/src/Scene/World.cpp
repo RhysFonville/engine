@@ -1,8 +1,7 @@
 #include "engine/Scene/World.h"
 
-void World::init() noexcept {
-	if (active_scene != scenes.size())
-		get_active_scene()->init();
+std::expected<World, Error> World::init() noexcept {
+	return World{};
 }
 
 void World::tick() noexcept {
@@ -22,7 +21,7 @@ std::optional<Error> World::activate_scene(size_t i) noexcept {
 		get_active_scene()->clean_up();
 
 	active_scene = i;
-	get_active_scene()->init();
+	if (auto res{get_active_scene()->init()}; !res.has_value()) return res.error();
 
 	return std::nullopt;
 }

@@ -11,9 +11,7 @@ CREATE_ERROR_CATEGORY(world, {
 
 class World {
 public:
-	World() : active_scene{scenes.size()} {}
-
-	void init() noexcept;
+	static std::expected<World, Error> init() noexcept;
 	void tick() noexcept;
 	void clean_up() noexcept;
 
@@ -24,6 +22,8 @@ public:
 	const std::shared_ptr<Scene>& get_active_scene() const noexcept { return scenes[active_scene]; }
 
 private:
+	World() : active_scene{scenes.size()} {}
+
 	std::vector<std::shared_ptr<Scene>> scenes{};
 	size_t active_scene{};
 };

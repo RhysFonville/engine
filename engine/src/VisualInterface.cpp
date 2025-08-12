@@ -1,7 +1,9 @@
 #include "engine/VisualInterface.h"
 
-std::optional<Error> VisualInterface::init() noexcept {
-	return window.init();
+std::expected<VisualInterface, Error> VisualInterface::init() noexcept {
+	auto window{Window::init()};
+	if (!window.has_value()) return std::unexpected{window.error()};
+	return VisualInterface{std::move(*window)};
 }
 
 void VisualInterface::tick() noexcept {
