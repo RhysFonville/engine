@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <engine/Engine.h>
 
 int main() {
@@ -8,11 +9,20 @@ int main() {
 	}
 
 	auto scene1{std::make_shared<Scene>(Scene::init().value())};
-	scene1->add_object(Object::init().value());
+	if (auto res{scene1->add_object()}; !res.has_value()) {
+		log(LogLevel::FATAL, res.error());
+		return EXIT_FAILURE;
+	}
 
 	auto scene2{std::make_shared<Scene>(Scene::init().value())};
-	scene2->add_object(Object::init().value());
-	scene2->add_object(Object::init().value());
+	if (auto res{scene2->add_object()}; !res.has_value()) {
+		log(LogLevel::FATAL, res.error());
+		return EXIT_FAILURE;
+	}
+	if (auto res{scene2->add_object()}; !res.has_value()) {
+		log(LogLevel::FATAL, res.error());
+		return EXIT_FAILURE;
+	}
 
 	if (scene1->get_objects().size() >= scene2->get_objects().size()) {
 		log(LogLevel::FATAL, "Scene 1 with only 1 object ended up having more objects with only 2 objects added.");
