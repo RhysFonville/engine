@@ -9,17 +9,20 @@ int main() {
 	}
 
 	auto scene1{std::make_shared<Scene>(Scene::init().value())};
-	if (auto res{scene1->add_object()}; !res.has_value()) {
+	if (auto res{scene1->add_object<Object>()}; !res.has_value()) {
 		log(LogLevel::FATAL, res.error());
 		return EXIT_FAILURE;
 	}
 
 	auto scene2{std::make_shared<Scene>(Scene::init().value())};
-	if (auto res{scene2->add_object()}; !res.has_value()) {
-		log(LogLevel::FATAL, res.error());
+	auto obj{Object::init()};
+	if (!obj.has_value()) {
+		log(LogLevel::FATAL, obj.error());
 		return EXIT_FAILURE;
 	}
-	if (auto res{scene2->add_object()}; !res.has_value()) {
+	scene2->add_object(std::make_unique<Object>(obj.value()));
+
+	if (auto res{scene2->add_object<Object>()}; !res.has_value()) {
 		log(LogLevel::FATAL, res.error());
 		return EXIT_FAILURE;
 	}
