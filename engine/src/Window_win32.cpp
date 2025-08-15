@@ -8,7 +8,14 @@ struct Window::Impl : public WindowImpl { };
 
 static std::optional<std::pair<Vector2, Vector2>> set_size_limit{std::nullopt};
 
-Window::Window() noexcept : impl{new Impl} { }
+Window::Window(Window&&) noexcept = default;
+Window& Window::operator=(Window&&) noexcept = default;
+Window::Window() noexcept : impl{std::make_unique<Impl>()} { }
+Window::~Window() = default;
+
+const void* Window::get_window_handle() const noexcept {
+	return (void*)impl->hwnd;
+}
 
 std::optional<Error> WindowImpl::init(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) noexcept {
     hinstance = hInstance;
@@ -43,8 +50,11 @@ std::optional<Error> WindowImpl::init(HINSTANCE hInstance, HINSTANCE hPrevInstan
 	return std::nullopt;
 }
 
-std::optional<Error> Window::init() noexcept {
-	return impl->init(GetModuleHandleA(NULL), NULL, LPSTR(""), 0);
+std::expected<Window, Error> Window::init() noexcept {
+	Window win{};
+	if (auto res{win.impl->init(GetModuleHandleA(NULL), NULL, LPSTR(""), 0)}; res.has_value())
+		return std::unexpected{res.value()};
+	return win;
 }
 
 std::optional<Error> Window::clean_up() noexcept {

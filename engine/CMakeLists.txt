@@ -9,6 +9,9 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(INCLUDE_DIR include/engine)
 
+set(JSON_BuildTests OFF CACHE INTERNAL "")
+add_subdirectory(${nlohmann_json_source} ${CMAKE_CURRENT_SOURCE_DIR}/nlohmann_json)
+
 # Create the library
 add_library(engine STATIC
 	# Header files not needed, just good for IDEs (like visual studio)
@@ -21,6 +24,7 @@ add_library(engine STATIC
 	${INCLUDE_DIR}/AssetManager/AssetManager.h
 	${INCLUDE_DIR}/AssetManager/AssetLoader.h
 	${INCLUDE_DIR}/AssetManager/TextLoader.h
+	${INCLUDE_DIR}/AssetManager/SceneLoader.h
     ${INCLUDE_DIR}/Input/InputSet.h
     ${INCLUDE_DIR}/Input/Key.h
     ${INCLUDE_DIR}/Input/Keybind.h
@@ -29,11 +33,14 @@ add_library(engine STATIC
 	${INCLUDE_DIR}/Object/Object.h
 	${INCLUDE_DIR}/Scene/Scene.h
 	${INCLUDE_DIR}/Scene/World.h
-
+	${INCLUDE_DIR}/AssetManager/ObjectReflection/ObjectFactory.h
+	${INCLUDE_DIR}/AssetManager/ObjectReflection/ReflectionMacro.h
+	
 	src/Window.cpp
 	src/AssetManager/AssetManager.cpp
 	src/AssetManager/AssetLoader.cpp
 	src/AssetManager/TextLoader.cpp
+	src/AssetManager/SceneLoader.cpp
     src/Input/InputSet.cpp
 	src/Engine.cpp
 	src/VisualInterface.cpp
@@ -53,6 +60,8 @@ elseif(APPLE)
 	find_package(glfw3 3.4 REQUIRED)
 	target_link_libraries(engine PRIVATE glfw)
 endif()
+
+target_link_libraries(engine PRIVATE nlohmann_json)
 
 # Set the include directory (public API)
 target_include_directories(engine PUBLIC
@@ -90,7 +99,7 @@ target_compile_definitions(engine PRIVATE ENGINE_EXPORTS)
 # Make the library installable
 include(GNUInstallDirs)
 
-install(TARGETS engine
+install(TARGETS engine nlohmann_json
 	EXPORT engine_targets
 	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
 	ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}

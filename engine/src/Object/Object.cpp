@@ -1,4 +1,4 @@
-#include "engine/Scene/Object.h"
+#include "engine/Object/Object.h"
 
 std::expected<Object, Error> Object::init() noexcept {
 	return Object{};

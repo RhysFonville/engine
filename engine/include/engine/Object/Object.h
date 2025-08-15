@@ -2,10 +2,17 @@
 
 #include <string>
 #include <vector>
+#include <nlohmann/json.hpp>
 #include "../util/debug.h"
 #include "../Component/Component.h"
 
 using ObjectID = size_t;
+
+struct Property {
+	std::string type;
+	std::string name;
+    void* pointer;
+};
 
 class Object {
 public:
@@ -18,6 +25,8 @@ public:
 	bool operator==(const Object& obj) const noexcept { return obj.id == id; }
 
 	std::string name{};
+
+	virtual const std::vector<Property>& get_properties() const { return {}; };
 
 private:
 	friend class Scene;
