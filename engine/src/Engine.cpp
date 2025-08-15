@@ -10,6 +10,17 @@ std::expected<Engine, Error> Engine::init() noexcept {
 	return Engine{std::move(*w), std::move(*vi), std::move(*am)};
 }
 
+std::expected<Engine, Error> Engine::init(const std::string& path) noexcept {
+	auto am{AssetManager::init()};
+	if (!am.has_value()) return std::unexpected{am.error()};
+
+	auto w{World::init(am.value(), path + "world.json")};
+	auto vi{VisualInterface::init()};
+	if (!w.has_value()) return std::unexpected{w.error()};
+	if (!vi.has_value()) return std::unexpected{vi.error()};
+	return Engine{std::move(*w), std::move(*vi), std::move(*am)};
+}
+
 void Engine::tick() noexcept {
 	world.tick();
 	visuals.tick();

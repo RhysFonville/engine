@@ -1,7 +1,8 @@
 #include "engine/AssetManager/SceneLoader.h"
 #include "engine/AssetManager/ObjectReflection/ObjectFactory.h"
+#include "engine/Scene/Scene.h"
 
-std::expected<std::shared_ptr<Scene>, Error> load_typed(const std::string& file) {
+std::expected<std::shared_ptr<Scene>, Error> SceneLoader::load_typed(const std::string& file) {
 	std::shared_ptr<Scene> scene{};
 	{
 		auto temp_scene{Scene::init()};

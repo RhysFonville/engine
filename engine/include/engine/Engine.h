@@ -7,6 +7,7 @@
 class Engine {
 public:
 	static std::expected<Engine, Error> init() noexcept;
+	static std::expected<Engine, Error> init(const std::string& path) noexcept;
 	void tick() noexcept;
 	void clean_up() noexcept;
 
@@ -23,4 +24,3 @@ private:
 
 	bool running{true};
 };
-

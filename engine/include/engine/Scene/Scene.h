@@ -136,4 +136,3 @@ private:
 
 	inline static ObjectID object_id_counter{0};
 };
-
