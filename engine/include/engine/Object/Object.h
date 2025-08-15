@@ -31,7 +31,9 @@ public:
 	virtual const std::vector<Property>& get_properties() const;
 
 	void set_property_from_json(const Property& prop, const nlohmann::json& value);
-
+	
+	static ObjectRegistrar<Object> registrar;
+	
 private:
 	friend class Scene;
 
@@ -40,7 +42,8 @@ private:
 	ObjectID id;
 	std::vector<Component*> components;
 
-	DEF_REGISTRAR(Object)
+	static std::vector<Property>& static_properties() {
+		static std::vector<Property> properties;
+		return properties;
+	}
 };
-
-END_CLASS(Object)

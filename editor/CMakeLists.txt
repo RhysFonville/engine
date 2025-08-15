@@ -50,7 +50,7 @@ elseif(WIN32)
 		imgui/backends/imgui_impl_win32.h
 	)
 	set(PLATFORM_FILES
-		
+		Editor/UI/EditorUI_win32.cpp
 	)
 endif()
 
@@ -78,6 +78,7 @@ set(EXE_FILES
 
 	main.cpp
 	${IMGUI_FILES}
+	${PLATFORM_FILES}
 	Editor/Editor.cpp
 	Editor/UI/Widget/FileWidget.cpp
 )
@@ -102,6 +103,7 @@ target_include_directories(editor PRIVATE
 	${ENGINE_DIR}/include
 	imgui/
 	imgui/backends/
+	${ENGINE_DIR}/nlohmann_json/include
 )
 
 # Create symlink to compile_commands.json for IDE to pick it up

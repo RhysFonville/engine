@@ -17,14 +17,21 @@ std::expected<World, Error> World::init(AssetManager& asset_manager, const std::
 	std::ifstream in{world_file};
 	if (!in.is_open()) return std::unexpected{Error{5, world_category()}};
 
-	nlohmann::json json{nlohmann::json::parse(in)};
+	nlohmann::json json{};
+	try {
+		json = nlohmann::json::parse(in);
+	}
+	catch (const nlohmann::json::parse_error &e) {
+		std::string what = e.what();
+		return std::unexpected{Error{7, world_category()}};
+	}
 
 	in.close();
 	if (in.is_open()) return std::unexpected{Error{5, world_category()}};
 
 	std::vector<std::string> scene_files{};
 	for (auto& scene_file_json : json["scenes"]) {
-		std::string scene_file{scene_file_json.get<std::string>()};
+		std::string scene_file{(path.parent_path() / scene_file_json.get<std::string>()).string()};
 		scene_files.emplace_back(scene_file);
 
 		auto scene_res{asset_manager.load<Scene>(scene_file)};
@@ -34,7 +41,7 @@ std::expected<World, Error> World::init(AssetManager& asset_manager, const std::
 		world.add_scene(scene, false);
 	}
 
-	auto it{std::ranges::find(scene_files, json["active_scene"].get<std::string>())};
+	auto it{std::ranges::find(scene_files, (path.parent_path() / json["active_scene"].get<std::string>()).string())};
 	if (it != scene_files.end()) {
 		world.active_scene = std::distance(scene_files.begin(), it);
 		if (auto res{world.activate_scene(world.active_scene)}; res.has_value())
@@ -43,6 +50,14 @@ std::expected<World, Error> World::init(AssetManager& asset_manager, const std::
 		return std::unexpected{Error{3, world_category()}};
 	}
 
+	log("There are " + std::to_string(world.scenes.size()) + " scenes.");
+	size_t i{0u};
+	for (const auto& scene : world.scenes) {
+		log("There are " + std::to_string(scene->get_objects().size()) + " objects in scene " + std::to_string(i) + ".");
+		i++;
+	}
+	log("The active scene has " + std::to_string(world.scenes[world.active_scene]->get_objects().size()) + " objects.");
+	
 	return world;
 }
 

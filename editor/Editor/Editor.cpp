@@ -1,16 +1,19 @@
 #include "UI/EditorUI.h"
 #include "Editor.h"
 
-std::optional<Error> Editor::init(const std::string& project_path) noexcept {
-	this->project_path = project_path;
+std::expected<Editor, Error> Editor::init(const std::string& project_path) noexcept {
+	auto engine{ Engine::init(project_path) };
+	if (!engine.has_value()) return std::unexpected{engine.error()};
+	
+	Editor editor{std::move(*engine)};
 
-	auto res{engine.init()};
-	EditorUI::init(engine.visuals.window);
+	editor.project_path = project_path;
 
-	return res;
+	EditorUI::init(engine.value().visuals.window);
+
+	return editor;
 }
 
 void Editor::run() noexcept {
 	engine.run();
 }
-

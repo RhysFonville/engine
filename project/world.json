@@ -3,7 +3,5 @@
 		"scene1.json",
 		"scene2.json"
 	],
-	"active_scene": [
-		"scene1.json"
-	]
+	"active_scene": "scene2.json"
 }

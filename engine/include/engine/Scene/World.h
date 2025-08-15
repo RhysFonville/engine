@@ -11,7 +11,8 @@ CREATE_ERROR_CATEGORY(world, {
 	{3, "Active scene value when reading scene file does not match up with any added scene"},
 	{4, "Invalid file (does not exist/is not regular/does not have json extension"},
 	{5, "Could not open file"},
-	{6, "Could not close file"}
+	{6, "Could not close file"},
+	{7, "Could not parse json"},
 })
 
 class World {

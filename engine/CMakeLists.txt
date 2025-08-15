@@ -61,13 +61,13 @@ elseif(APPLE)
 	target_link_libraries(engine PRIVATE glfw)
 endif()
 
-target_link_libraries(engine PRIVATE nlohmann_json)
-
 # Set the include directory (public API)
 target_include_directories(engine PUBLIC
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 	$<INSTALL_INTERFACE:include>
 )
+
+target_link_libraries(engine PRIVATE nlohmann_json)
 
 set_target_properties(engine PROPERTIES VERSION ${PROJECT_VERSION})
 set_target_properties(engine PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR})

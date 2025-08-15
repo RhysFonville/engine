@@ -14,7 +14,7 @@ std::expected<Engine, Error> Engine::init(const std::string& path) noexcept {
 	auto am{AssetManager::init()};
 	if (!am.has_value()) return std::unexpected{am.error()};
 
-	auto w{World::init(am.value(), path + "world.json")};
+	auto w{World::init(am.value(), (path + "/world.json"))};
 	auto vi{VisualInterface::init()};
 	if (!w.has_value()) return std::unexpected{w.error()};
 	if (!vi.has_value()) return std::unexpected{vi.error()};

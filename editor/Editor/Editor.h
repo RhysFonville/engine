@@ -7,13 +7,14 @@
 
 class Editor {
 public:
-	Editor() {}
 
-	std::optional<Error> init(const std::string& project_path) noexcept;
+	static std::expected<Editor, Error> init(const std::string& project_path) noexcept;
 	void run() noexcept;
 
 private:
-	std::string project_path{};
-	Engine engine{};
+	Editor(Engine &&e) : engine{std::move(e)} {}
+
+	std::string project_path;
+	Engine engine;
 };
 

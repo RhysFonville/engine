@@ -1,15 +1,18 @@
+#pragma once
+
 #include <ranges>
 #include <algorithm>
 
 #define DEF_REGISTRAR(class_name) static ObjectRegistrar<class_name> registrar;
 
 #define BEGIN_CLASS(class_name) \
-public: \
+private: \
 	using ClassType = class_name; \
 	static std::vector<Property>& static_properties() { \
 		static std::vector<Property> properties; \
 		return properties; \
 	} \
+public: \
 	const std::vector<Property>& get_properties() const override { \
 		std::vector<Property> parent_properties{Object::get_properties()}; \
 		std::vector<Property> properties{static_properties()}; \
@@ -17,7 +20,6 @@ public: \
 		properties.insert(properties.end(), parent_properties); \
 		return properties; \
 	} \
-	static ObjectRegistrar<class_name> registrar; \
 	DEF_REGISTRAR(class_name)
 
 #define END_CLASS(class_name) \

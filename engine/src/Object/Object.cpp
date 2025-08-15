@@ -1,5 +1,7 @@
 #include "engine/Object/Object.h"
 
+ObjectRegistrar<Object> Object::registrar{"Object"};
+
 std::expected<Object, Error> Object::init() noexcept {
 	return Object{};
 }
@@ -13,10 +15,7 @@ void Object::clean_up() noexcept {
 }
 
 const std::vector<Property>& Object::get_properties() const {
-	return {
-		Property{"ObjectID", "id", (void*)&id},
-		Property{"std::vector<Component*>", "components", (void*)&components}
-	};
+	return static_properties();
 }
 
 void Object::set_property_from_json(const Property& prop, const nlohmann::json& value) {

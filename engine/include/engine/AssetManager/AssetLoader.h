@@ -10,7 +10,8 @@ CREATE_ERROR_CATEGORY(asset_loader, {
 	{1, "Could not open file"},
 	{2, "Could not close file"},
 	{3, "Not a valid file (does not exist or is not regular)"},
-	{4, "Unable to parse json"},
+	{4, "Not a valid file (is not json)"},
+	{5, "Could not parse json"},
 })
 
 class IAssetLoader {
