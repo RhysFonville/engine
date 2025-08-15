@@ -26,7 +26,7 @@ add_library(engine STATIC
     ${INCLUDE_DIR}/Input/Keybind.h
 	${INCLUDE_DIR}/Engine.h
 	${INCLUDE_DIR}/VisualInterface.h
-	${INCLUDE_DIR}/Scene/Object.h
+	${INCLUDE_DIR}/Object/Object.h
 	${INCLUDE_DIR}/Scene/Scene.h
 	${INCLUDE_DIR}/Scene/World.h
 
@@ -37,7 +37,7 @@ add_library(engine STATIC
     src/Input/InputSet.cpp
 	src/Engine.cpp
 	src/VisualInterface.cpp
-	src/Scene/Object.cpp
+	src/Object/Object.cpp
 	src/Scene/Scene.cpp
 	src/Scene/World.cpp
 )
