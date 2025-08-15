@@ -1,3 +1,8 @@
+#include <ranges>
+#include <algorithm>
+
+#define DEF_REGISTRAR(class_name) static ObjectRegistrar<class_name> registrar;
+
 #define BEGIN_CLASS(class_name) \
 public: \
 	using ClassType = class_name; \
@@ -6,10 +11,14 @@ public: \
 		return properties; \
 	} \
 	const std::vector<Property>& get_properties() const override { \
-		return static_properties(); \
+		std::vector<Property> parent_properties{Object::get_properties()}; \
+		std::vector<Property> properties{static_properties()}; \
+		properties.reserve(pp.size()); \
+		properties.insert(properties.end(), parent_properties); \
+		return properties; \
 	} \
 	static ObjectRegistrar<class_name> registrar; \
-private:
+	DEF_REGISTRAR(class_name)
 
 #define END_CLASS(class_name) \
 ObjectRegistrar<class_name> class_name::registrar{#class_name};

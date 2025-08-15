@@ -26,6 +26,13 @@ std::expected<std::shared_ptr<Scene>, Error> SceneLoader::load_typed(const std::
 			continue;
 		}
 
+		// Set properties from JSON
+		for (const auto& prop : obj->get_properties()) {
+			if (obj_data.contains(prop.name)) {
+				obj->set_property_from_json(prop, obj_data[prop.name]);
+			}
+		}
+
 		scene->add_object(std::move(obj));
 	}
 

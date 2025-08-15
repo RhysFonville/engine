@@ -5,13 +5,15 @@
 #include <nlohmann/json.hpp>
 #include "../util/debug.h"
 #include "../Component/Component.h"
+#include "engine/AssetManager/ObjectReflection/ObjectFactory.h"
+#include "engine/AssetManager/ObjectReflection/ReflectionMacro.h"
 
 using ObjectID = size_t;
 
 struct Property {
 	std::string type;
 	std::string name;
-    void* pointer;
+	void* pointer;
 };
 
 class Object {
@@ -26,7 +28,9 @@ public:
 
 	std::string name{};
 
-	virtual const std::vector<Property>& get_properties() const { return {}; };
+	virtual const std::vector<Property>& get_properties() const;
+
+	void set_property_from_json(const Property& prop, const nlohmann::json& value);
 
 private:
 	friend class Scene;
@@ -35,5 +39,8 @@ private:
 
 	ObjectID id;
 	std::vector<Component*> components;
+
+	DEF_REGISTRAR(Object)
 };
 
+END_CLASS(Object)

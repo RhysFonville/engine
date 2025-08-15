@@ -2,7 +2,8 @@
 
 #include <functional>
 #include <memory>
-#include "engine/Object/Object.h"
+
+class Object;
 
 class ObjectFactory {
 public:
