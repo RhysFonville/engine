@@ -36,7 +36,6 @@ add_library(engine STATIC
 	${INCLUDE_DIR}/AssetManager/ObjectReflection/ObjectFactory.h
 	${INCLUDE_DIR}/AssetManager/ObjectReflection/ReflectionMacro.h
 	
-	src/Window.cpp
 	src/AssetManager/AssetManager.cpp
 	src/AssetManager/AssetLoader.cpp
 	src/AssetManager/TextLoader.cpp
@@ -47,6 +46,7 @@ add_library(engine STATIC
 	src/Object/Object.cpp
 	src/Scene/Scene.cpp
 	src/Scene/World.cpp
+	src/AssetManager/ObjectReflection/ObjectFactory.cpp
 )
 
 if(WIN32)
@@ -72,8 +72,8 @@ target_link_libraries(engine PRIVATE nlohmann_json)
 set_target_properties(engine PROPERTIES VERSION ${PROJECT_VERSION})
 set_target_properties(engine PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR})
 
-set(DEBUG_DIR ${CMAKE_SOURCE_DIR}/Debug)
-set(RELEASE_DIR ${CMAKE_SOURCE_DIR}/Release)
+set(DEBUG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Debug)
+set(RELEASE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Release)
 
 set_target_properties(engine PROPERTIES
 	ARCHIVE_OUTPUT_DIRECTORY_DEBUG   "${DEBUG_DIR}"
@@ -118,6 +118,7 @@ enable_testing()
 macro(add_engine_test test_name)
 	add_executable(${test_name} tests/${test_name}.cpp)
 	target_link_libraries(${test_name} PRIVATE engine)
+	target_include_directories(${test_name} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/nlohmann_json/include)
 	add_test(NAME ${test_name} COMMAND ${test_name})
 	set_target_properties(${test_name} PROPERTIES
 		RUNTIME_OUTPUT_DIRECTORY_DEBUG   "${DEBUG_DIR}/tests"

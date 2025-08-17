@@ -18,7 +18,10 @@ std::expected<Engine, Error> Engine::init(const std::string& path) noexcept {
 	auto vi{VisualInterface::init()};
 	if (!w.has_value()) return std::unexpected{w.error()};
 	if (!vi.has_value()) return std::unexpected{vi.error()};
-	return Engine{std::move(*w), std::move(*vi), std::move(*am)};
+
+	Engine e{std::move(*w), std::move(*vi), std::move(*am)};
+	e.load_project_library(path);
+	return e;
 }
 
 void Engine::tick() noexcept {

@@ -2,6 +2,7 @@
 
 #include <ranges>
 #include <algorithm>
+#include "ObjectFactory.h"
 
 #define DEF_REGISTRAR(class_name) static ObjectRegistrar<class_name> registrar;
 
@@ -16,19 +17,19 @@ public: \
 	const std::vector<Property>& get_properties() const override { \
 		std::vector<Property> parent_properties{Object::get_properties()}; \
 		std::vector<Property> properties{static_properties()}; \
-		properties.reserve(pp.size()); \
-		properties.insert(properties.end(), parent_properties); \
-		return properties; \
+		properties.reserve(parent_properties.size()); \
+		properties.insert(properties.end(), parent_properties.begin(), parent_properties.end()); \
+		return std::move(properties); \
 	} \
 	DEF_REGISTRAR(class_name)
 
-#define END_CLASS(class_name) \
+#define BEGIN_DEFS(class_name) \
 ObjectRegistrar<class_name> class_name::registrar{#class_name};
 
-#define PROPERTY(type, name, pointer) \
-	type name{}; \
-	struct AutoRegister_##name { \
-		AutoRegister_##name(type) { \
-			ClassType::static_properties().push_back({#name, #type, pointer}); \
-		} \
-	} auto_register_##name{&name};
+#define PROPERTY(type, name) \
+type name{}; \
+struct AutoRegister_##name { \
+	AutoRegister_##name(void* pointer) { \
+		ClassType::static_properties().push_back({#name, #type, pointer}); \
+	} \
+} auto_register_##name{&name};

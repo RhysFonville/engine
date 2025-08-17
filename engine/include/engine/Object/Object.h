@@ -5,7 +5,6 @@
 #include <nlohmann/json.hpp>
 #include "../util/debug.h"
 #include "../Component/Component.h"
-#include "engine/AssetManager/ObjectReflection/ObjectFactory.h"
 #include "engine/AssetManager/ObjectReflection/ReflectionMacro.h"
 
 using ObjectID = size_t;
@@ -31,13 +30,14 @@ public:
 	virtual const std::vector<Property>& get_properties() const;
 
 	void set_property_from_json(const Property& prop, const nlohmann::json& value);
+
+	DEF_REGISTRAR(Object)
 	
-	static ObjectRegistrar<Object> registrar;
-	
+protected:
+	Object() : id{}, components{} {}
+
 private:
 	friend class Scene;
-
-	Object() : id{}, components{} {}
 
 	ObjectID id;
 	std::vector<Component*> components;
@@ -47,3 +47,4 @@ private:
 		return properties;
 	}
 };
+

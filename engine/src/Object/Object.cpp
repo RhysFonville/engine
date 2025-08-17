@@ -1,6 +1,6 @@
 #include "engine/Object/Object.h"
 
-ObjectRegistrar<Object> Object::registrar{"Object"};
+BEGIN_DEFS(Object)
 
 std::expected<Object, Error> Object::init() noexcept {
 	return Object{};

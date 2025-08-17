@@ -25,15 +25,15 @@ find_library(ENGINE_LIB_RELEASE
 )
 
 if(NOT ENGINE_LIB_DEBUG)
-	message(WARNING "Debug version of engine.lib not found")
+	message(WARNING "Debug version of engine library not found")
 else()
-	message(STATUS "Debug version of engine.lib found")
+	message(STATUS "Debug version of engine library found")
 endif()
 
 if(NOT ENGINE_LIB_RELEASE)
-	message(WARNING "Release version of engine.lib not found")
+	message(WARNING "Release version of engine library not found")
 else()
-	message(STATUS "Release version of engine.lib found")
+	message(STATUS "Release version of engine library found")
 endif()
 
 if(APPLE)
@@ -93,9 +93,12 @@ else()
 	target_link_libraries(editor PRIVATE glfw)
 endif()
 
+set(DEBUG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Debug)
+set(RELEASE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Release)
+
 set_target_properties(editor PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY_DEBUG   "${CMAKE_SOURCE_DIR}/Debug"
-    RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/Release"
+	RUNTIME_OUTPUT_DIRECTORY_DEBUG   "${DEBUG_DIR}"
+	RUNTIME_OUTPUT_DIRECTORY_RELEASE "${RELEASE_DIR}"
 )
 
 # Include headers from child project
@@ -120,3 +123,4 @@ target_link_libraries(editor PRIVATE
 	$<$<CONFIG:Debug>:${ENGINE_LIB_DEBUG}>
 	$<$<CONFIG:Release>:${ENGINE_LIB_RELEASE}>
 )
+

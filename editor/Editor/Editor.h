@@ -7,7 +7,6 @@
 
 class Editor {
 public:
-
 	static std::expected<Editor, Error> init(const std::string& project_path) noexcept;
 	void run() noexcept;
 
