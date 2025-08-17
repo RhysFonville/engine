@@ -14,7 +14,7 @@ private: \
 		return properties; \
 	} \
 public: \
-	const std::vector<Property>& get_properties() const override { \
+	const std::vector<Property> get_properties() const override { \
 		std::vector<Property> parent_properties{Object::get_properties()}; \
 		std::vector<Property> properties{static_properties()}; \
 		properties.reserve(parent_properties.size()); \
@@ -24,7 +24,7 @@ public: \
 	DEF_REGISTRAR(class_name)
 
 #define BEGIN_DEFS(class_name) \
-ObjectRegistrar<class_name> class_name::registrar{#class_name};
+ObjectRegistrar<class_name> ATTR_USED class_name::registrar{#class_name};
 
 #define PROPERTY(type, name) \
 type name{}; \

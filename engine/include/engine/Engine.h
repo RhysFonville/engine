@@ -3,6 +3,11 @@
 #include "Scene/World.h"
 #include "VisualInterface.h"
 #include "AssetManager/AssetManager.h"
+#include "engine/util/debug.h"
+
+CREATE_ERROR_CATEGORY(engine, {
+	{1, "Could not load project library"}
+})
 
 class Engine {
 public:
@@ -22,7 +27,7 @@ private:
 	Engine(World&& w, VisualInterface&& vi, AssetManager&& am)
 		: world{std::move(w)}, visuals{std::move(vi)}, asset_manager{std::move(am)} {}
 
-	void load_project_library(const std::string& path) noexcept;
+	static std::optional<Error> load_project_library(const std::string& path) noexcept;
 
 	bool running{true};
 };

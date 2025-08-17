@@ -27,7 +27,7 @@ public:
 
 	std::string name{};
 
-	virtual const std::vector<Property>& get_properties() const;
+	virtual const std::vector<Property> get_properties() const;
 
 	void set_property_from_json(const Property& prop, const nlohmann::json& value);
 

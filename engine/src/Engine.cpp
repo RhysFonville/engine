@@ -11,6 +11,8 @@ std::expected<Engine, Error> Engine::init() noexcept {
 }
 
 std::expected<Engine, Error> Engine::init(const std::string& path) noexcept {
+	if (auto res{Engine::load_project_library(path)}) return std::unexpected{res.value()};
+
 	auto am{AssetManager::init()};
 	if (!am.has_value()) return std::unexpected{am.error()};
 
@@ -20,7 +22,6 @@ std::expected<Engine, Error> Engine::init(const std::string& path) noexcept {
 	if (!vi.has_value()) return std::unexpected{vi.error()};
 
 	Engine e{std::move(*w), std::move(*vi), std::move(*am)};
-	e.load_project_library(path);
 	return e;
 }
 

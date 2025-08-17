@@ -67,6 +67,12 @@ STATIC_ASSERT(sizeof(f64) == 8u, "Expected f64 to be 8 bytes.");
     #define RENDERER_VULKAN
 #endif
 
+#ifdef PLATFORM_WINDOWS
+	#define ATTR_USED __declspec(selectany)
+#elif defined(PLATFORM_APPLE)
+	#define ATTR_USED __attribute__((used))
+#endif
+
 #if defined(_WIN32) || defined(__CYGWIN__)
 	#ifdef ENGINE_EXPORTS
 		#define ENGINE_API __declspec(dllexport)

@@ -14,7 +14,7 @@ void Object::clean_up() noexcept {
 
 }
 
-const std::vector<Property>& Object::get_properties() const {
+const std::vector<Property> Object::get_properties() const {
 	return static_properties();
 }
 
