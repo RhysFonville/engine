@@ -22,7 +22,7 @@ private:
 	Engine(World&& w, VisualInterface&& vi, AssetManager&& am)
 		: world{std::move(w)}, visuals{std::move(vi)}, asset_manager{std::move(am)} {}
 
-	void load_project_library(const std::string& path) noexcept { }
+	void load_project_library(const std::string& path) noexcept;
 
 	bool running{true};
 };

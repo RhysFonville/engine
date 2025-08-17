@@ -42,6 +42,7 @@ add_library(engine STATIC
 	src/AssetManager/SceneLoader.cpp
     src/Input/InputSet.cpp
 	src/Engine.cpp
+	src/Engine_apple.cpp
 	src/VisualInterface.cpp
 	src/Object/Object.cpp
 	src/Scene/Scene.cpp
