@@ -31,7 +31,7 @@ std::expected<std::shared_ptr<Scene>, Error> SceneLoader::load_typed(const std::
 	for (auto& obj_data : json["objects"]) {
 		std::string type{obj_data["type"]};
 
-		auto obj{ObjectFactory::instance().create(type)};
+		auto obj{get_object_factory_instance().create(type)};
 		if (!obj.has_value()) {
 			return std::unexpected{obj.error()};
 			continue;

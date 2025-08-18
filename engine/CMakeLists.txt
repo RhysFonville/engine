@@ -13,7 +13,7 @@ set(JSON_BuildTests OFF CACHE INTERNAL "")
 add_subdirectory(${nlohmann_json_source} ${CMAKE_CURRENT_SOURCE_DIR}/nlohmann_json)
 
 # Create the library
-add_library(engine SHARED
+add_library(engine STATIC
 	# Header files not needed, just good for IDEs (like visual studio)
 	${INCLUDE_DIR}/util/defines.h
 	${INCLUDE_DIR}/util/debug.h
@@ -42,7 +42,6 @@ add_library(engine SHARED
 	src/AssetManager/SceneLoader.cpp
     src/Input/InputSet.cpp
 	src/Engine.cpp
-	src/Engine_apple.cpp
 	src/VisualInterface.cpp
 	src/Object/Object.cpp
 	src/Scene/Scene.cpp
@@ -51,9 +50,9 @@ add_library(engine SHARED
 )
 
 if(WIN32)
-	target_sources(engine PRIVATE src/Window_win32.cpp)
+	target_sources(engine PRIVATE src/Engine_win32.cpp src/Window_win32.cpp)
 elseif(APPLE)
-	target_sources(engine PRIVATE src/Window_apple.cpp)
+	target_sources(engine PRIVATE src/Engine_apple.cpp src/Window_apple.cpp)
 
 	find_package(Vulkan REQUIRED)
 	target_link_libraries(engine PRIVATE ${Vulkan_INCLUDE_DIRS})

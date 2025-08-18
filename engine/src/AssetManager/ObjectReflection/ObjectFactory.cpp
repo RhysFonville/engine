@@ -1,11 +1,6 @@
 #include "engine/AssetManager/ObjectReflection/ObjectFactory.h"
 #include "engine/Object/Object.h"
 
-ObjectFactory& ObjectFactory::instance() noexcept {
-	static ObjectFactory inst;
-	return inst;
-}
-
 void ObjectFactory::register_type(const std::string& name, CreateFn fn) noexcept {
 	registry[name] = std::move(fn);
 	log("registered " + name);

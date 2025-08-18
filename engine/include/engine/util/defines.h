@@ -73,7 +73,7 @@ STATIC_ASSERT(sizeof(f64) == 8u, "Expected f64 to be 8 bytes.");
 	#define ATTR_USED __attribute__((used))
 #endif
 
-#if defined(_WIN32) || defined(__CYGWIN__)
+/*#if defined(_WIN32) || defined(__CYGWIN__)
 	#ifdef ENGINE_EXPORTS
 		#define ENGINE_API __declspec(dllexport)
 	#else
@@ -81,14 +81,12 @@ STATIC_ASSERT(sizeof(f64) == 8u, "Expected f64 to be 8 bytes.");
 	#endif
 #else
 	#define ENGINE_API
-#endif
+#endif*/
 
 #if _DEBUG
-	#define DEBUG 1
-	#define RELEASE 0
+	#define DEBUG
 #else
-	#define RELEASE 1
-	#define DEBUG 0
+	#define RELEASE
 #endif
 
 #define CLAMP(value, min, max) ((value <= min) ? min : (value >= max) ? max : value)
