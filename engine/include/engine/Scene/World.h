@@ -15,7 +15,7 @@ CREATE_ERROR_CATEGORY(world, {
 	{7, "Could not parse json"},
 })
 
-class World {
+class ENGINE_API World {
 public:
 	static std::expected<World, Error> init() noexcept;
 	static std::expected<World, Error> init(AssetManager& asset_manager, const std::string& world_file) noexcept;

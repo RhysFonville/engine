@@ -14,14 +14,14 @@ CREATE_ERROR_CATEGORY(asset_loader, {
 	{5, "Could not parse json"},
 })
 
-class IAssetLoader {
+class ENGINE_API IAssetLoader {
 public:
 	virtual ~IAssetLoader() = default;
 	virtual std::expected<std::shared_ptr<void>, Error> load(const std::string& file) = 0;
 };
 
 template<typename T>
-class AssetLoader : public IAssetLoader {
+class ENGINE_API AssetLoader : public IAssetLoader {
 public:
 	virtual std::expected<std::shared_ptr<T>, Error> load_typed(const std::string& file) = 0;
 

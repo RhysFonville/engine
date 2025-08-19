@@ -13,7 +13,7 @@ set(JSON_BuildTests OFF CACHE INTERNAL "")
 add_subdirectory(${nlohmann_json_source} ${CMAKE_CURRENT_SOURCE_DIR}/nlohmann_json)
 
 # Create the library
-add_library(engine STATIC
+add_library(engine SHARED
 	# Header files not needed, just good for IDEs (like visual studio)
 	${INCLUDE_DIR}/util/defines.h
 	${INCLUDE_DIR}/util/debug.h

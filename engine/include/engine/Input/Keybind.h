@@ -3,7 +3,7 @@
 #include <functional>
 #include "Key.h"
 
-class Keybind {
+class ENGINE_API Keybind {
 public:
     Keybind(Key key, KeyEvent event, const std::function<void()>& callback)
         : key{key}, event{event}, callback{callback} { }

@@ -3,7 +3,7 @@
 #include <vector>
 #include "Keybind.h"
 
-class InputSet {
+class ENGINE_API InputSet {
 public:
 	InputSet() { }
 

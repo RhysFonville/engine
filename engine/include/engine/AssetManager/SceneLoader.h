@@ -4,7 +4,7 @@
 #include "AssetLoader.h"
 #include "engine/Scene/Scene.h"
 
-class SceneLoader : public AssetLoader<Scene> {
+class ENGINE_API SceneLoader : public AssetLoader<Scene> {
 public:
 	SceneLoader() { }
 

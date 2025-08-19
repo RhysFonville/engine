@@ -9,7 +9,7 @@ CREATE_ERROR_CATEGORY(engine, {
 	{1, "Could not load project library"}
 })
 
-class Engine {
+class ENGINE_API Engine {
 public:
 	static std::expected<Engine, Error> init() noexcept;
 	static std::expected<Engine, Error> init(const std::string& path) noexcept;

@@ -6,7 +6,7 @@
 #include "util/debug.h"
 #include "util/vector.h"
 
-class Window {
+class ENGINE_API Window {
 public:
 	Window(Window&&) noexcept;
     Window& operator=(Window&&) noexcept;

@@ -3,7 +3,7 @@
 #include <string>
 #include "AssetLoader.h"
 
-class TextLoader : public AssetLoader<std::string> {
+class ENGINE_API TextLoader : public AssetLoader<std::string> {
 public:
 	TextLoader() { }
 

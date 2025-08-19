@@ -15,7 +15,7 @@ struct Property {
 	void* pointer;
 };
 
-class Object {
+class ENGINE_API Object {
 public:
 	static std::expected<Object, Error> init() noexcept;
 	void tick() noexcept;

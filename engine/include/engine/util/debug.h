@@ -16,7 +16,7 @@
 #include "defines.h"
 
 #define CREATE_ERROR_CATEGORY(cat_name, ...) \
-class _##cat_name##_category : public std::error_category { \
+class ENGINE_API _##cat_name##_category : public std::error_category { \
 public: \
 	constexpr _##cat_name##_category() noexcept : std::error_category{} { } \
 \
@@ -36,7 +36,7 @@ inline const std::error_category& cat_name##_category() { \
 	return instance; \
 }\
 
-class Error : public std::error_code {
+class ENGINE_API Error : public std::error_code {
 public:
 	Error() { }
 	explicit Error(const std::error_code& ec)

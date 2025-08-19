@@ -9,7 +9,7 @@ CREATE_ERROR_CATEGORY(asset_manager, {
     {1, "Cannot find loader for this asset type"}
 })
 
-class AssetManager {
+class ENGINE_API AssetManager {
 public:
 	static std::expected<AssetManager, Error> init() noexcept;
 

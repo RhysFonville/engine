@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Window.h"
+#include "engine/util/debug.h"
 
-class VisualInterface {
+class ENGINE_API VisualInterface {
 public:
 	static std::expected<VisualInterface, Error> init() noexcept;
 	void tick() noexcept;
