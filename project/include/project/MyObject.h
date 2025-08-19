@@ -8,7 +8,7 @@ public:
 	static std::expected<MyObject, Error> init() noexcept;
 	
 private:
-	MyObject() { }
+	MyObject() : Object{} { }
 
 	PROPERTY(int, x);
 };
