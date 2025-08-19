@@ -27,7 +27,7 @@ private:
 };
 
 template<typename T>
-struct ENGINE_API ObjectRegistrar {
+struct ObjectRegistrar {
 	ObjectRegistrar(const char* name) {
 		ObjectFactory::instance().register_type(name, []() -> std::expected<std::unique_ptr<Object>, Error> {
 			auto obj{T::init()};

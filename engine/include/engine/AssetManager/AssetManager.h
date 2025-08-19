@@ -12,6 +12,10 @@ CREATE_ERROR_CATEGORY(asset_manager, {
 class ENGINE_API AssetManager {
 public:
 	static std::expected<AssetManager, Error> init() noexcept;
+	
+	AssetManager(AssetManager&&) = default;
+	AssetManager(const AssetManager&) = delete;
+	AssetManager& operator=(const AssetManager&) = delete;
 
 	template<typename T>
 	void register_loader(std::unique_ptr<AssetLoader<T>> loader) noexcept {
@@ -43,9 +47,9 @@ public:
 	}
 
 private:
-	AssetManager() noexcept {}
+	AssetManager() noexcept : loaders{}, assets{} {}
 
-	std::unordered_map<size_t, std::unique_ptr<IAssetLoader>> loaders{};
-	std::unordered_map<size_t, std::unordered_map<std::string, std::weak_ptr<void>>> assets{};
+	std::unordered_map<size_t, std::unique_ptr<IAssetLoader>> loaders;
+	std::unordered_map<size_t, std::unordered_map<std::string, std::weak_ptr<void>>> assets;
 };
 

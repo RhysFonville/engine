@@ -19,7 +19,7 @@ public: \
 		std::vector<Property> properties{static_properties()}; \
 		properties.reserve(parent_properties.size()); \
 		properties.insert(properties.end(), parent_properties.begin(), parent_properties.end()); \
-		return std::move(properties); \
+		return properties; \
 	} \
 	DEF_REGISTRAR(class_name)
 
@@ -30,6 +30,6 @@ ObjectRegistrar<class_name> ATTR_USED class_name::registrar{#class_name};
 type name{}; \
 struct AutoRegister_##name { \
 	AutoRegister_##name(void* pointer) { \
-		ClassType::static_properties().push_back({#name, #type, pointer}); \
+		ClassType::static_properties().push_back({#type, #name, pointer}); \
 	} \
 } auto_register_##name{&name};

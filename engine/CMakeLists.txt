@@ -25,9 +25,9 @@ add_library(engine SHARED
 	${INCLUDE_DIR}/AssetManager/AssetLoader.h
 	${INCLUDE_DIR}/AssetManager/TextLoader.h
 	${INCLUDE_DIR}/AssetManager/SceneLoader.h
-    ${INCLUDE_DIR}/Input/InputSet.h
-    ${INCLUDE_DIR}/Input/Key.h
-    ${INCLUDE_DIR}/Input/Keybind.h
+	${INCLUDE_DIR}/Input/InputSet.h
+	${INCLUDE_DIR}/Input/Key.h
+	${INCLUDE_DIR}/Input/Keybind.h
 	${INCLUDE_DIR}/Engine.h
 	${INCLUDE_DIR}/VisualInterface.h
 	${INCLUDE_DIR}/Object/Object.h
@@ -40,7 +40,7 @@ add_library(engine SHARED
 	src/AssetManager/AssetLoader.cpp
 	src/AssetManager/TextLoader.cpp
 	src/AssetManager/SceneLoader.cpp
-    src/Input/InputSet.cpp
+	src/Input/InputSet.cpp
 	src/Engine.cpp
 	src/VisualInterface.cpp
 	src/Object/Object.cpp
@@ -66,6 +66,10 @@ target_include_directories(engine PUBLIC
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 	$<INSTALL_INTERFACE:include>
 )
+
+if (MSVC)
+	target_compile_options(engine PRIVATE /wd4251 /wd4275)
+endif()
 
 target_link_libraries(engine PRIVATE nlohmann_json)
 
@@ -117,13 +121,19 @@ enable_testing()
 
 macro(add_engine_test test_name)
 	add_executable(${test_name} tests/${test_name}.cpp)
+	
 	target_link_libraries(${test_name} PRIVATE engine)
 	target_include_directories(${test_name} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/nlohmann_json/include)
-	add_test(NAME ${test_name} COMMAND ${test_name})
+	
+	if (MSVC)
+		target_compile_options(${test_name} PRIVATE /wd4251 /wd4275)
+	endif()
 	set_target_properties(${test_name} PROPERTIES
 		RUNTIME_OUTPUT_DIRECTORY_DEBUG   "${DEBUG_DIR}/tests"
 		RUNTIME_OUTPUT_DIRECTORY_RELEASE "${RELEASE_DIR}/tests"
 	)
+	
+	add_test(NAME ${test_name} COMMAND ${test_name})
 endmacro()
 
 add_engine_test(log_test)

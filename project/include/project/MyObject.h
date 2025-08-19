@@ -1,7 +1,7 @@
-#include "engine/AssetManager/ObjectReflection/ReflectionMacro.h"
 #include "engine/Object/Object.h"
+#include "defines.h"
 
-class MyObject : public Object {
+class PROJECT_API MyObject : public Object {
 public:
 	BEGIN_CLASS(MyObject);
 
@@ -13,3 +13,4 @@ private:
 	PROPERTY(int, x);
 };
 
+BEGIN_DEFS(MyObject);
