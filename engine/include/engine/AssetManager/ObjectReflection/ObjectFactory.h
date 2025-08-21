@@ -29,7 +29,7 @@ private:
 };
 
 template<typename T> requires std::derived_from<T, RegistrationObject>
-struct ENGINE_API ObjectRegistrar {
+struct ObjectRegistrar {
 	ObjectRegistrar(const char* name) {
 		ObjectFactory::instance().register_type(name, []() -> std::expected<std::unique_ptr<RegistrationObject>, Error> {
 			auto obj{T::init()};

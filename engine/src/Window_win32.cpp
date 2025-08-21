@@ -52,7 +52,7 @@ std::optional<Error> WindowImpl::init(HINSTANCE hInstance, HINSTANCE hPrevInstan
 
 std::expected<Window, Error> Window::init() noexcept {
 	Window win{};
-	if (auto res{win.impl->init(GetModuleHandleA(NULL), NULL, LPSTR(""), 0)}; res.has_value())
+	if (auto res{win.impl->init(GetModuleHandleA(NULL), NULL, LPSTR(""), SW_SHOW)}; res.has_value())
 		return std::unexpected{res.value()};
 	return win;
 }

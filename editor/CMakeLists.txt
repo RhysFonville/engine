@@ -109,6 +109,18 @@ target_include_directories(editor PRIVATE
 	${ENGINE_DIR}/nlohmann_json/include
 )
 
+if(MSVC)
+	target_compile_options(editor PRIVATE /wd4251 /wd4275)
+endif()
+
+if(WIN32)
+	add_custom_command(TARGET editor POST_BUILD
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different
+		"${ENGINE_DIR}/$<CONFIG>/engine.dll"
+		"${CMAKE_CURRENT_SOURCE_DIR}/$<CONFIG>"
+	)
+endif()
+
 # Create symlink to compile_commands.json for IDE to pick it up
 if(UNIX)
 	execute_process(

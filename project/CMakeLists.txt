@@ -34,6 +34,8 @@ endif()
 
 add_library(project SHARED
 	${INCLUDE_DIR}/MyObject.h
+	${INCLUDE_DIR}/defines.h
+
 	src/MyObject.cpp
 )
 
@@ -48,6 +50,12 @@ target_link_libraries(project PRIVATE
 	$<$<CONFIG:Release>:${ENGINE_LIB_RELEASE}>
 )
 
+if (MSVC)
+	target_compile_options(project PRIVATE /wd4251 /wd4275)
+endif()
+
+target_compile_definitions(project PRIVATE PROJECT_EXPORTS)
+
 set(DEBUG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Debug)
 set(RELEASE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Release)
 
@@ -59,4 +67,3 @@ set_target_properties(project PROPERTIES
 	RUNTIME_OUTPUT_DIRECTORY_DEBUG   "${DEBUG_DIR}"
 	RUNTIME_OUTPUT_DIRECTORY_RELEASE "${RELEASE_DIR}"
 )
-

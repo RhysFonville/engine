@@ -10,7 +10,7 @@
 class Scene;
 
 template<typename T> requires std::derived_from<T, Component>
-class ENGINE_API ComponentStorage {
+class ComponentStorage {
 public:
 	T* add(ObjectID e, const std::unique_ptr<T>& component) noexcept {
 		if (object_to_index.find(e) != object_to_index.end()) {
@@ -59,6 +59,10 @@ public:
 	static std::expected<Scene, Error> init() noexcept;
 	void tick() noexcept;
 	void clean_up() noexcept;
+
+	Scene(Scene&&) = default;
+	Scene(const Scene&) = delete;
+	void operator=(const Scene&) = delete;
 
 	template<typename T> requires std::derived_from<T, Object>
 	Object* add_object(std::unique_ptr<T>&& object) noexcept {
