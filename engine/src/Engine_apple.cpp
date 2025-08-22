@@ -13,7 +13,6 @@ std::optional<Error> Engine::load_project_library(const std::string& path) noexc
 #endif
 
 	if (handle == nullptr) return Error{1, engine_category()};
-	log("Built library");
 	return std::nullopt;
 }
 

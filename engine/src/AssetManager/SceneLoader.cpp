@@ -1,6 +1,7 @@
 #include <fstream>
 #include "engine/AssetManager/SceneLoader.h"
 #include "engine/AssetManager/ObjectReflection/ObjectFactory.h"
+#include "engine/Object/RegistrationObject.h"
 #include "engine/Scene/Scene.h"
 
 std::expected<std::shared_ptr<Scene>, Error> SceneLoader::load_typed(const std::string& file) {
@@ -44,7 +45,7 @@ std::expected<std::shared_ptr<Scene>, Error> SceneLoader::load_typed(const std::
 			}
 		}
 
-		scene->add_object(std::move(obj.value()));
+		scene->add_object(static_unique_pointer_cast<Object>(std::move(*obj)));
 	}
 
 	return std::move(scene);

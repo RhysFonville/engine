@@ -31,10 +31,12 @@ add_library(engine SHARED
 	${INCLUDE_DIR}/Engine.h
 	${INCLUDE_DIR}/VisualInterface.h
 	${INCLUDE_DIR}/Object/Object.h
+	${INCLUDE_DIR}/Object/RegistrationObject.h
 	${INCLUDE_DIR}/Scene/Scene.h
 	${INCLUDE_DIR}/Scene/World.h
 	${INCLUDE_DIR}/AssetManager/ObjectReflection/ObjectFactory.h
 	${INCLUDE_DIR}/AssetManager/ObjectReflection/ReflectionMacro.h
+	${INCLUDE_DIR}/Component/Component.h
 	
 	src/AssetManager/AssetManager.cpp
 	src/AssetManager/AssetLoader.cpp
@@ -44,6 +46,7 @@ add_library(engine SHARED
 	src/Engine.cpp
 	src/VisualInterface.cpp
 	src/Object/Object.cpp
+	src/Object/RegistrationObject.cpp
 	src/Scene/Scene.cpp
 	src/Scene/World.cpp
 	src/AssetManager/ObjectReflection/ObjectFactory.cpp
