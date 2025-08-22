@@ -33,3 +33,4 @@ struct AutoRegister_##name { \
 		ClassType::static_properties().push_back({#type, #name, pointer}); \
 	} \
 } auto_register_##name{&name};
+

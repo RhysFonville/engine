@@ -10,7 +10,7 @@ void ObjectFactory::register_type(const std::string& name, CreateFn fn) noexcept
 	registry[name] = std::move(fn);
 }
 
-std::expected<std::unique_ptr<Object>, Error> ObjectFactory::create(const std::string& name) {
+std::expected<std::unique_ptr<RegistrationObject>, Error> ObjectFactory::create(const std::string& name) {
 	auto it = registry.find(name);
 	if (it != registry.end()) {
 		auto res{it->second()};
