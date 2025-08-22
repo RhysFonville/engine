@@ -22,13 +22,13 @@ public:
 
 	void set_property_from_json(const Property& prop, const nlohmann::json& value) override;
 
-	std::string name{};
+	std::string name;
 
 	DEF_REGISTRAR(Object)
 	
 protected:
 	Object(RegistrationObject&& reg_obj)
-		: RegistrationObject{std::move(reg_obj)}, id{}, components{} {}
+		: RegistrationObject{std::move(reg_obj)}, id{}, components{}, name{} {}
 
 private:
 	friend class Scene;

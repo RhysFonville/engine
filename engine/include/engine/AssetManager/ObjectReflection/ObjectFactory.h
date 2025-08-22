@@ -39,7 +39,7 @@ template<typename T>
 struct ObjectRegistrar {
 	ObjectRegistrar(const char* name) {
 		ObjectFactory::instance().register_type(name, [&]() -> std::expected<std::unique_ptr<RegistrationObject>, Error> {
-			auto obj{T::init(name)};
+			auto obj{T::init()};
 			if (!obj.has_value()) return std::unexpected{obj.error()};
 			return std::make_unique<T>(std::move(obj.value()));
 		});

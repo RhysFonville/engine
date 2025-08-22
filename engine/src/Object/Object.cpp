@@ -1,5 +1,4 @@
 #include "engine/Object/Object.h"
-#include "engine/Object/RegistrationObject.h"
 
 BEGIN_DEFS(Object)
 

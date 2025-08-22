@@ -13,17 +13,18 @@ class ENGINE_API RegistrationObject {
 public:
 	static std::expected<RegistrationObject, Error> init() noexcept;
 
-	virtual const std::vector<Property> get_properties() const { return {}; }
+	const std::vector<Property> get_properties() const { return properties; }
 
 	const std::string& get_registered_name() const noexcept { return name; }
 
 	virtual void set_property_from_json(const Property& prop, const nlohmann::json& value) {}
 
 protected:
-	RegistrationObject() {}
+	RegistrationObject() : properties{}, name{} {}
+	std::vector<Property> properties;
 
 private:
+	friend class ObjectFactory;
 	std::string name;
-	std::vector<Property> properties;
 };
 

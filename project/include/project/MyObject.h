@@ -1,3 +1,4 @@
+#include "engine/AssetManager/ObjectReflection/ReflectionMacro.h"
 #include "engine/Object/Object.h"
 #include "defines.h"
 
@@ -10,7 +11,7 @@ public:
 private:
 	MyObject(Object&& obj) : Object{std::move(obj)} { }
 
-	PROPERTY(int, x);
+	PROPERTY(int, x)
 };
 
 BEGIN_DEFS(MyObject);

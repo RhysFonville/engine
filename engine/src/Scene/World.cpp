@@ -50,14 +50,6 @@ std::expected<World, Error> World::init(AssetManager& asset_manager, const std::
 		return std::unexpected{Error{3, world_category()}};
 	}
 
-	log("There are " + std::to_string(world.scenes.size()) + " scenes.");
-	size_t i{0u};
-	for (const auto& scene : world.scenes) {
-		log("There are " + std::to_string(scene->get_objects().size()) + " objects in scene " + std::to_string(i) + ".");
-		i++;
-	}
-	log("The active scene has " + std::to_string(world.scenes[world.active_scene]->get_objects().size()) + " objects.");
-	
 	return world;
 }
 

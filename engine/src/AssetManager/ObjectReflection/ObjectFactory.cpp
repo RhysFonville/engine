@@ -1,5 +1,4 @@
 #include "engine/AssetManager/ObjectReflection/ObjectFactory.h"
-#include "engine/Object/Object.h"
 
 ObjectFactory& ObjectFactory::instance() noexcept {
 	static ObjectFactory factory;
@@ -15,6 +14,7 @@ std::expected<std::unique_ptr<RegistrationObject>, Error> ObjectFactory::create(
 	if (it != registry.end()) {
 		auto res{it->second()};
 		if (!res.has_value()) return std::unexpected{res.error()};
+		res.value()->name = name;
 		return std::move(*res);
 	}
 	return std::unexpected{Error{1, object_factory_category()}};
