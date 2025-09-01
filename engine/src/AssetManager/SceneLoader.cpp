@@ -5,7 +5,7 @@
 #include "engine/Scene/Scene.h"
 
 std::expected<std::shared_ptr<Scene>, Error> SceneLoader::load_typed(const std::string& file) {
-	if (std::filesystem::path{file}.extension() != ".json") return std::unexpected{ERROR(4, asset_loader_category())};
+	if (std::filesystem::path{file}.extension() != ".json") return std::unexpected{MK_ERROR(4, asset_loader_category())};
 	
 	std::shared_ptr<Scene> scene{};
 	{
@@ -15,7 +15,7 @@ std::expected<std::shared_ptr<Scene>, Error> SceneLoader::load_typed(const std::
 	}
 
 	std::ifstream in{file};
-	if (!in.is_open()) return std::unexpected{ERROR(1, asset_loader_category())};
+	if (!in.is_open()) return std::unexpected{MK_ERROR(1, asset_loader_category())};
 
 	nlohmann::json json{};
 	try {
@@ -23,11 +23,11 @@ std::expected<std::shared_ptr<Scene>, Error> SceneLoader::load_typed(const std::
 	} catch (const nlohmann::json::parse_error& e) {
 		in.close();
 		std::string what = e.what();
-		return std::unexpected{ERROR(5, asset_loader_category())};
+		return std::unexpected{MK_ERROR(5, asset_loader_category())};
 	}
 
 	in.close();
-	if (in.is_open()) return std::unexpected{ERROR(2, asset_loader_category())};
+	if (in.is_open()) return std::unexpected{MK_ERROR(2, asset_loader_category())};
 
 	for (auto& obj_data : json["objects"]) {
 		std::string type{obj_data["type"]};

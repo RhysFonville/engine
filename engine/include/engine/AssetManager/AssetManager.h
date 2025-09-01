@@ -35,7 +35,7 @@ public:
 
 		auto loader_it{loaders.find(type_id)};
 		if (loader_it == loaders.end()) {
-            return std::unexpected{ERROR(1, asset_manager_category())};
+            return std::unexpected{MK_ERROR(1, asset_manager_category())};
 		}
 
 		// Load and cache

@@ -59,7 +59,7 @@ private:
 };
 
 #undef ERROR
-#define ERROR(code, cat) Error{code, cat, std::source_location::current()}
+#define MK_ERROR(code, cat) Error{code, cat, std::source_location::current()}
 
 enum class LogLevel {
 	Fatal,

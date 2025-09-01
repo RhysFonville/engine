@@ -17,5 +17,5 @@ std::expected<std::unique_ptr<RegistrationObject>, Error> ObjectFactory::create(
 		res.value()->name = name;
 		return std::move(*res);
 	}
-	return std::unexpected{ERROR(1, object_factory_category())};
+	return std::unexpected{MK_ERROR(1, object_factory_category())};
 }
