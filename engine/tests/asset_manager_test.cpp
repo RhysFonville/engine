@@ -3,9 +3,9 @@
 #include <fstream>
 
 int main() {
-    std::ofstream f{"test.txt"};
+    std::ofstream f{"test_files/test.txt"};
     if (!f.is_open()) {
-        log(LogLevel::FATAL, "Unable to open file");
+        log(LogLevel::Fatal, "Unable to open file");
         return EXIT_FAILURE;
     }
 
@@ -14,41 +14,41 @@ int main() {
 
     f.close();
     if (f.is_open()) {
-        log(LogLevel::FATAL, "Unable to close file");
+        log(LogLevel::Fatal, "Unable to close file");
         return EXIT_FAILURE;
     }
 
 	auto engine{Engine::init()};
 	if (!engine.has_value()) {
-		log(LogLevel::FATAL, engine.error());
+		log(LogLevel::Fatal, engine.error());
 		return EXIT_FAILURE;
 	}
 	AssetManager& am{engine.value().asset_manager};
 
-    auto str{am.load<std::string>("test.txt")};
+    auto str{am.load<std::string>("test_files/test.txt")};
     if (!str.has_value()) {
         log(str.error());
         return EXIT_FAILURE;
     }
-	auto str2{am.load<std::string>("test.txt")};
+	auto str2{am.load<std::string>("test_files/test.txt")};
     if (!str2.has_value()) {
         log(str2.error());
         return EXIT_FAILURE;
     }
     if (str.value() != str2.value()) {
-        log(LogLevel::ERROR, "Pointers are not equal");
+        log(LogLevel::Error, "Pointers are not equal");
         return EXIT_FAILURE;
     }
     if (*str.value() != file_text) {
-        log(LogLevel::ERROR, "Text loader output not correct");
+        log(LogLevel::Error, "Text loader output not correct");
         return EXIT_FAILURE;
     }
 
     if (am.load<std::string>("file_that_doesnt_exist.txt").has_value()) {
-        log(LogLevel::ERROR, "Loaded result is returned when passed a file that does not exist");
+        log(LogLevel::Error, "Loaded result is returned when passed a file that does not exist");
     }
     if (am.load<std::string>("~/").has_value()) {
-        log(LogLevel::ERROR, "Loaded result is returned when passed a directory");
+        log(LogLevel::Error, "Loaded result is returned when passed a directory");
     }
 
 	return EXIT_SUCCESS;

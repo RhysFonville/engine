@@ -3,7 +3,7 @@
 
 int main() {
 	auto window{Window::init()};
-    if (!window.has_value()) {log(LogLevel::ERROR, window.error()); return EXIT_FAILURE; }
+    if (!window.has_value()) {log(LogLevel::Error, window.error()); return EXIT_FAILURE; }
 
     window->hide();
     window->show();

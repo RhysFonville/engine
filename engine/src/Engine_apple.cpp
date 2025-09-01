@@ -5,14 +5,19 @@
 #ifdef PLATFORM_APPLE
 
 std::optional<Error> Engine::load_project_library(const std::string& path) noexcept {
-	void* handle{};
+	std::string lib_path{path + "/"};
 #ifdef BUILD_DEBUG
-	handle = dlopen((path + "/Debug/libproject.dylib").c_str(), RTLD_NOW);
+	lib_path += "Debug";
 #else
-	handle = dlopen((path + "/Release/libproject.dylib").c_str(), RTLD_NOW);
+	lib_path += "Release";
 #endif
+	lib_path += "/libproject.dylib";
 
-	if (handle == nullptr) return Error{1, engine_category()};
+	if (std::filesystem::exists(lib_path)) {
+		void* handle{};
+		handle = dlopen(path.c_str(), RTLD_NOW);
+		if (handle == nullptr) return Error{1, engine_category()};
+	}
 	return std::nullopt;
 }
 

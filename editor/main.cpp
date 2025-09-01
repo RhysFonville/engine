@@ -3,7 +3,7 @@
 int main(const int argc, const char* argv[]) {
 	auto editor{Editor::init(std::string{argc > 1 ? argv[1] : ""})};
 	if (!editor.has_value()) {
-		log(LogLevel::FATAL, editor.error());
+		log(LogLevel::Fatal, editor.error());
 		return EXIT_FAILURE;
 	}
 	

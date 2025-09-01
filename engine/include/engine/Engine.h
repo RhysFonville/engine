@@ -25,7 +25,13 @@ public:
 
 private:
 	Engine(World&& w, VisualInterface&& vi, AssetManager&& am)
-		: world{std::move(w)}, visuals{std::move(vi)}, asset_manager{std::move(am)} {}
+		: world{std::move(w)}, visuals{std::move(vi)}, asset_manager{std::move(am)} {
+
+		std::set_terminate([]() {
+			log(LogLevel::Fatal, "Termination called. Likely due to an unhandled exception. Exiting.");
+			std::exit(EXIT_FAILURE);
+		});
+	}
 
 	static std::optional<Error> load_project_library(const std::string& path) noexcept;
 

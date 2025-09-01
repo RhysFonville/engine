@@ -43,6 +43,8 @@ public:
 		: std::error_code{ec}, location{std::source_location::current()} { }
 	explicit Error(int code, const std::error_category& cat)
 		: std::error_code{code, cat}, location{std::source_location::current()} { }
+	explicit Error(int code, const std::error_category& cat, std::source_location&& sl)
+		: std::error_code{code, cat}, location{sl} { }
 
 	operator int() const noexcept {
 		return value();
@@ -57,50 +59,51 @@ private:
 };
 
 #undef ERROR
+#define ERROR(code, cat) Error{code, cat, std::source_location::current()}
 
 enum class LogLevel {
-	FATAL,
-	ERROR,
-	WARN,
-	INFO,
+	Fatal,
+	Error,
+	Warn,
+	Info,
 };
 
 inline void begin_log_level(LogLevel level) noexcept {
-	if (level == LogLevel::FATAL) { std::cerr << "FATAL: "; }
-	else if (level == LogLevel::ERROR) { std::cerr << "ERROR: "; }
-	else if (level == LogLevel::WARN) { std::cerr << "WARN: "; }
-	else if (level == LogLevel::INFO) { std::cout << "INFO: "; }
+	if (level == LogLevel::Fatal) { std::cerr << "FATAL: "; }
+	else if (level == LogLevel::Error) { std::cerr << "ERROR: "; }
+	else if (level == LogLevel::Warn) { std::cerr << "WARN: "; }
+	else if (level == LogLevel::Info) { std::cout << "INFO: "; }
 
 #ifdef WIN32
-	if (level == LogLevel::FATAL) { OutputDebugStringA("FATAL: "); }
-	else if (level == LogLevel::ERROR) { OutputDebugStringA("ERROR: "); }
-	else if (level == LogLevel::WARN) { OutputDebugStringA("WARN: "); }
-	else if (level == LogLevel::INFO) { OutputDebugStringA("INFO: "); }
+	if (level == LogLevel::Fatal) { OutputDebugStringA("FATAL: "); }
+	else if (level == LogLevel::Error) { OutputDebugStringA("ERROR: "); }
+	else if (level == LogLevel::Warn) { OutputDebugStringA("WARN: "); }
+	else if (level == LogLevel::Info) { OutputDebugStringA("INFO: "); }
 #endif
 }
 
 inline void log(LogLevel level, const auto& message) noexcept {
 	begin_log_level(level);
-	(level == LogLevel::INFO ? std::cout : std::cerr) << message << '\n';
+	(level == LogLevel::Info ? std::cout : std::cerr) << message << '\n';
 }
 
 #ifdef WIN32
 inline void log(LogLevel level, const std::string& message) noexcept {
 	begin_log_level(level);
-	(level == LogLevel::INFO ? std::cout : std::cerr) << message << '\n';
+	(level == LogLevel::Info ? std::cout : std::cerr) << message << '\n';
 	OutputDebugStringA((message + '\n').c_str());
 }
 #endif
 
 inline void log(const auto& message) noexcept {
-	log(LogLevel::INFO, message);
+	log(LogLevel::Info, message);
 }
 
 inline void log(LogLevel level, const Error& error) noexcept {
 	begin_log_level(level);
 
 	const std::source_location& loc{error.get_location()};
-	(level == LogLevel::INFO ? std::cout : std::cerr) <<
+	(level == LogLevel::Info ? std::cout : std::cerr) <<
 		"Error code " << error.value() <<
 		" (" << error.category().message(error.value()) << ")" <<
 		" of category " << error.category().name() <<

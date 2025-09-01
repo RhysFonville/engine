@@ -5,14 +5,19 @@
 #include <Windows.h>
 
 std::optional<Error> Engine::load_project_library(const std::string& path) noexcept {
-	HMODULE handle{};
+	std::string lib_path{path + "/"};
 #ifdef BUILD_DEBUG
-	handle = LoadLibraryA((path + "/Debug/project.dll").c_str());
+	lib_path += "Debug";
 #else
-	handle = LoadLibraryA((path + "/Release/project.dll").c_str());
+	lib_path += "Release";
 #endif
+	lib_path += "/project.dll";
 
-	if (handle == NULL) return Error{(int)GetLastError(), std::system_category()};
+	if (std::filesystem::exists(lib_path)) {
+		HMODULE handle{};
+		handle = LoadLibraryA((path + "/Release/project.dll").c_str());
+		if (handle == NULL) return Error{(int)GetLastError(), std::system_category()};
+	}
 	return std::nullopt;
 }
 

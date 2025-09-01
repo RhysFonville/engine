@@ -143,4 +143,5 @@ add_engine_test(log_test)
 add_engine_test(window_test)
 add_engine_test(asset_manager_test)
 add_engine_test(scene_test)
+add_engine_test(project_test)
 

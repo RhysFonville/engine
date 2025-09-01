@@ -26,7 +26,7 @@ public:
 	virtual std::expected<std::shared_ptr<T>, Error> load_typed(const std::string& file) = 0;
 
 	std::expected<std::shared_ptr<void>, Error> load(const std::string& file) override {
-		if (!is_valid_file(file)) return std::unexpected{Error{3, asset_loader_category()}};
+		if (!is_valid_file(file)) return std::unexpected{ERROR(3, asset_loader_category())};
 		return load_typed(file); // Implicitly upcasts
 	}
 

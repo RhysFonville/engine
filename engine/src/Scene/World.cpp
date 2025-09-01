@@ -12,10 +12,10 @@ std::expected<World, Error> World::init(AssetManager& asset_manager, const std::
 	std::filesystem::path path{world_file};
 	if (!std::filesystem::exists(path) ||
 		!std::filesystem::is_regular_file(path) ||
-		path.extension() != ".json") return std::unexpected{Error{4, world_category()}};
+		path.extension() != ".json") return std::unexpected{ERROR(4, world_category())};
 	
 	std::ifstream in{world_file};
-	if (!in.is_open()) return std::unexpected{Error{5, world_category()}};
+	if (!in.is_open()) return std::unexpected{ERROR(5, world_category())};
 
 	nlohmann::json json{};
 	try {
@@ -23,11 +23,11 @@ std::expected<World, Error> World::init(AssetManager& asset_manager, const std::
 	}
 	catch (const nlohmann::json::parse_error &e) {
 		std::string what = e.what();
-		return std::unexpected{Error{7, world_category()}};
+		return std::unexpected{ERROR(7, world_category())};
 	}
 
 	in.close();
-	if (in.is_open()) return std::unexpected{Error{5, world_category()}};
+	if (in.is_open()) return std::unexpected{ERROR(5, world_category())};
 
 	std::vector<std::string> scene_files{};
 	for (auto& scene_file_json : json["scenes"]) {
@@ -47,7 +47,7 @@ std::expected<World, Error> World::init(AssetManager& asset_manager, const std::
 		if (auto res{world.activate_scene(world.active_scene)}; res.has_value())
 			return std::unexpected{res.value()};
 	} else {
-		return std::unexpected{Error{3, world_category()}};
+		return std::unexpected{ERROR(3, world_category())};
 	}
 
 	return world;
