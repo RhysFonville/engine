@@ -15,8 +15,8 @@ std::optional<Error> Engine::load_project_library(const std::string& path) noexc
 
 	if (std::filesystem::exists(lib_path)) {
 		HMODULE handle{};
-		handle = LoadLibraryA((path + "/Release/project.dll").c_str());
-		if (handle == NULL) return Error{(int)GetLastError(), std::system_category()};
+		handle = LoadLibraryA((lib_path + "/Release/project.dll").c_str());
+		if (handle == NULL) return MK_ERROR((int)GetLastError(), std::system_category());
 	}
 	return std::nullopt;
 }

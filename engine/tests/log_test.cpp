@@ -10,7 +10,7 @@ int main() {
 	log(LogLevel::Info, "Info message");
 
     for (i32 i : std::views::iota(1, 10)) {
-        log(LogLevel::Error, Error{std::error_code{i, std::generic_category()}});
+        log(LogLevel::Error, MK_ERROR(i, std::generic_category()));
     }
 
 	return EXIT_SUCCESS;

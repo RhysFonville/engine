@@ -22,7 +22,7 @@ static std::map<Key, bool> keys_hold{
 };
 
 void Window::Impl::error_callback(int error, const char* description) noexcept {
-	glfw_error = Error{std::error_code{error, glfw_category()}};
+	glfw_error = MK_ERROR(error, glfw_category());
 }
 
 void Window::Impl::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) noexcept {

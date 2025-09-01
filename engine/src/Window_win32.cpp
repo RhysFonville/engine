@@ -26,7 +26,7 @@ std::optional<Error> WindowImpl::init(HINSTANCE hInstance, HINSTANCE hPrevInstan
 	wc.lpszClassName = CLASS_NAME;
 	
 	if (!RegisterClassA(&wc))
-		return Error{std::error_code{(int)GetLastError(), std::system_category()}};
+		return MK_ERROR(std::error_code{(int)GetLastError(), std::system_category()});
 
 	// Create the window
 	hwnd = CreateWindowExA(
@@ -43,7 +43,7 @@ std::optional<Error> WindowImpl::init(HINSTANCE hInstance, HINSTANCE hPrevInstan
 	);
 
 	if (hwnd == NULL)
-		return Error{std::error_code{(int)GetLastError(), std::system_category()}};
+		return MK_ERROR(std::error_code{(int)GetLastError(), std::system_category()});
 
 	ShowWindow(hwnd, nCmdShow);
 
@@ -59,10 +59,10 @@ std::expected<Window, Error> Window::init() noexcept {
 
 std::optional<Error> Window::clean_up() noexcept {
     if (!DestroyWindow(impl->hwnd))
-		return Error{std::error_code{(int)GetLastError(), std::system_category()}};
+		return MK_ERROR(std::error_code{(int)GetLastError(), std::system_category()});
 
 	if (!UnregisterClassA(impl->wc.lpszClassName, impl->hinstance))
-		return Error{std::error_code{(int)GetLastError(), std::system_category()}};
+		return MK_ERROR(std::error_code{(int)GetLastError(), std::system_category()});
 
 	return std::nullopt;
 }

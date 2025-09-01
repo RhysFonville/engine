@@ -15,8 +15,8 @@ std::optional<Error> Engine::load_project_library(const std::string& path) noexc
 
 	if (std::filesystem::exists(lib_path)) {
 		void* handle{};
-		handle = dlopen(path.c_str(), RTLD_NOW);
-		if (handle == nullptr) return Error{1, engine_category()};
+		handle = dlopen(lib_path.c_str(), RTLD_NOW);
+		if (handle == nullptr) return MK_ERROR(1, engine_category());
 	}
 	return std::nullopt;
 }

@@ -21,6 +21,7 @@ public:
 
 protected:
 	RegistrationObject() : properties{}, name{} {}
+
 	std::vector<Property> properties;
 
 private:
