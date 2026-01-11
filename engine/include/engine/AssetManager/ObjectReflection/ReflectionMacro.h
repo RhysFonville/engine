@@ -18,8 +18,8 @@ ObjectRegistrar<class_name> ATTR_USED class_name::registrar{#class_name};
 #define PROPERTY(type, name) \
 type name{}; \
 struct PROJECT_API AutoRegister_##name { \
-	AutoRegister_##name(std::vector<Property>* prop_pointer, void* pointer) { \
-		prop_pointer->push_back({#type, #name, pointer}); \
+	AutoRegister_##name(std::vector<std::unique_ptr<IProperty>>& properties_p, type* pointer) { \
+		properties_p.emplace_back(std::make_unique<Property<type>>(#name, pointer)); \
 	} \
-} auto_register_##name{&properties, &name};
+} auto_register_##name{properties, &name};
 

@@ -1,5 +1,6 @@
 #include <dlfcn.h>
 #include "engine/Engine.h"
+#include "engine/util/debug.h"
 #include "engine/util/defines.h"
 
 #ifdef PLATFORM_APPLE
@@ -18,6 +19,7 @@ std::optional<Error> Engine::load_project_library(const std::string& path) noexc
 		handle = dlopen(lib_path.c_str(), RTLD_NOW);
 		if (handle == nullptr) return MK_ERROR(1, engine_category());
 	}
+
 	return std::nullopt;
 }
 

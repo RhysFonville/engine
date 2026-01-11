@@ -9,12 +9,13 @@
 class ENGINE_API Window {
 public:
 	Window(Window&&) noexcept;
-    Window& operator=(Window&&) noexcept;
+	Window& operator=(Window&&) noexcept;
 	~Window();
+
+	static std::expected<Window, Error> init() noexcept;
 
     std::optional<Error> clean_up() noexcept;
 
-	static std::expected<Window, Error> init() noexcept;
     bool process_events() noexcept;
 
 	const void* get_window_handle() const noexcept;

@@ -11,6 +11,8 @@ std::expected<Engine, Error> Engine::init() noexcept {
 }
 
 std::expected<Engine, Error> Engine::init(const std::string& path) noexcept {
+	if (path.empty()) return init();
+
 	if (auto res{Engine::load_project_library(path)}) return std::unexpected{res.value()};
 
 	auto am{AssetManager::init()};

@@ -40,8 +40,8 @@ std::expected<std::shared_ptr<Scene>, Error> SceneLoader::load_typed(const std::
 
 		// Set properties from JSON
 		for (const auto& prop : obj.value()->get_properties()) {
-			if (obj_data.contains(prop.name)) {
-				obj.value()->set_property_from_json(prop, obj_data[prop.name]);
+			if (obj_data.contains(prop->name)) {
+				//obj.value()->set_property_from_json(prop, obj_data[prop.name]);
 			}
 		}
 

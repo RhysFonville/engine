@@ -76,7 +76,7 @@ public:
 		if (!obj.has_value()) return std::unexpected{obj.error()};
 
 		obj.value().id = object_id_counter++;
-		return (objects[obj.value().id] = std::make_unique<T>(obj.value())).get();
+		return (objects[obj.value().id] = std::make_unique<T>(std::move(*obj))).get();
 	}
 
 	template<typename T>

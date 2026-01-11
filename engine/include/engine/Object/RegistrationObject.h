@@ -3,26 +3,38 @@
 #include <nlohmann/json.hpp>
 #include "engine/util/debug.h"
 
-struct Property {
-	std::string type;
+struct ENGINE_API IProperty {
+	IProperty(const std::string& name) : name{name} {}
+	virtual ~IProperty() = default;
 	std::string name;
-	void* pointer;
+};
+
+template <typename T>
+struct ENGINE_API Property : public IProperty {
+	Property(const std::string& name, T* pointer) : IProperty{name}, pointer{pointer} {}
+	T* pointer;
 };
 
 class ENGINE_API RegistrationObject {
 public:
 	static std::expected<RegistrationObject, Error> init() noexcept;
 
-	const std::vector<Property> get_properties() const { return properties; }
+	RegistrationObject(RegistrationObject&&) noexcept;
+	RegistrationObject& operator=(RegistrationObject&&) noexcept;
+	~RegistrationObject();
+
+	const std::vector<IProperty*> get_properties() const {
+		return properties
+			| std::views::transform([](const auto& p) { return p.get(); })
+			| std::ranges::to<std::vector>();
+	}
 
 	const std::string& get_registered_name() const noexcept { return name; }
 
-	virtual void set_property_from_json(const Property& prop, const nlohmann::json& value) {}
-
 protected:
-	RegistrationObject() : properties{}, name{} {}
+	RegistrationObject() noexcept;
 
-	std::vector<Property> properties;
+	std::vector<std::unique_ptr<IProperty>> properties;
 
 private:
 	friend class ObjectFactory;

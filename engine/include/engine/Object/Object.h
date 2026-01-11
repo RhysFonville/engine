@@ -7,6 +7,7 @@
 #include "../Component/Component.h"
 #include "engine/AssetManager/ObjectReflection/ReflectionMacro.h"
 #include "engine/Object/RegistrationObject.h"
+#include "engine/util/vector.h"
 
 using ObjectID = size_t;
 
@@ -20,9 +21,8 @@ public:
 
 	ObjectID get_id() const noexcept { return id; }
 
-	void set_property_from_json(const Property& prop, const nlohmann::json& value) override;
-
 	std::string name;
+	Transform transform;
 
 	DEF_REGISTRAR(Object)
 	

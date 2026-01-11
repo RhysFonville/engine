@@ -20,7 +20,7 @@ int main() {
 		log(LogLevel::Fatal, obj.error());
 		return EXIT_FAILURE;
 	}
-	scene2->add_object(std::make_unique<Object>(obj.value()));
+	scene2->add_object(std::make_unique<Object>(std::move(*obj)));
 
 	if (auto res{scene2->add_object<Object>()}; !res.has_value()) {
 		log(LogLevel::Fatal, res.error());
